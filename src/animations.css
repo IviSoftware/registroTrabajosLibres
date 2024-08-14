@@ -1,24 +1,22 @@
+/* Animación para entrada desde abajo */
 .fade-enter {
     opacity: 0;
-    transform: translateX(50%) scale(0.95);
-    filter: blur(10px);
+    transform: translateY(100%) scale(0.98);
   }
   .fade-enter-active {
     opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0);
-    transition: opacity 600ms ease-out, transform 600ms ease-out, filter 600ms ease-out;
+    transform: translateY(0) scale(1);
+    transition: opacity 400ms ease-out, transform 400ms ease-out;
   }
   
+  /* Animación para salida hacia abajo */
   .fade-exit {
     opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0);
+    transform: translateY(0) scale(1);
   }
   .fade-exit-active {
     opacity: 0;
-    transform: translateX(-50%) scale(0.95);
-    filter: blur(10px);
-    transition: opacity 500ms ease-in, transform 500ms ease-in, filter 500ms ease-in;
+    transform: translateY(100%) scale(0.98);
+    transition: opacity 350ms ease-in, transform 350ms ease-in;
   }
   
