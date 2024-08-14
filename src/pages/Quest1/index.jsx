@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Swal from 'sweetalert2'
 import { validateObjectFields } from "../../utils";
 import { ContainerQuest } from "../../components/ContainerQuest"
@@ -9,6 +9,7 @@ import { OptionsScale } from "../../components/atomos/OptionsScale";
 import { GrFormNext } from "react-icons/gr";
 import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaForms";
 import { CorrectQuestSend } from "../CorrectQuestSend";
+import Confetti from 'react-confetti';
 
 
 
@@ -37,10 +38,20 @@ function Quest1() {
     const keysToValidate6 = ['extObservaciones'];
     const keysTraduction6 = ['Observaciones'];
 
+    const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
 
-
-
+    useEffect(() => {
+        const handleResize = () => {
+          setDimensions({ width: window.innerWidth, height: window.innerHeight });
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
     return (
         <ContainerQuest title="Encuesta de satisfacción Profesionales (Virtual)" percentageState={percentageState}>
@@ -345,7 +356,11 @@ function Quest1() {
 
 
            {stage === 7 && <div className="w-full flex flex-col gap-6">
-               
+             <Confetti
+                width={dimensions.width}
+                height={dimensions.height}
+                recycle={false}  // Confeti se lanza una sola vez
+             />
              <CorrectQuestSend />
               
           </div>}
