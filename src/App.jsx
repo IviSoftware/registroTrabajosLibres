@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useEffect,useState} from 'react';
+import { WelcomeQuests } from './pages/WelcomeQuests';
+import { Quest1 } from './pages/Quest1';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [yourParamValue, setYourParamValue] = useState(null);
+  const [questState,setQuestState] = useState("start");
+  const [questType,setQuestType] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+  useEffect(() => {
+    // Obtén la URL actual
+    const queryString = window.location.search;
+    // Crea una instancia de URLSearchParams
+    const queryParams = new URLSearchParams(queryString);
+    // Obtén el valor de un parámetro de consulta específico
+    const paramValue = queryParams.get('quest');
+    
+    // Actualiza el estado con el valor del parámetro
+    setYourParamValue(paramValue);
+  }, []);
+
+
+  return (<>
+
+  
+  {questState === "start" && (<WelcomeQuests setQuestState={setQuestState} setQuestType={setQuestType}/>) }
+  {(questState === "questStarting" && questType==="questOne") && <Quest1 />}
+  </>  
   )
 }
 
