@@ -12,6 +12,7 @@ import { CorrectQuestSend } from "../CorrectQuestSend";
 
 
 
+
 function Quest1() {
     const [percentageState, setPercentageState] = useState(10);
     const [dataModule, setDataModule] = useState([]);
@@ -30,7 +31,7 @@ function Quest1() {
     const keysToValidate4 = ["extNivelContenidos","extDistribucionActividades","extTiempoActividades","extSeleccionPonentes","extParticipacionPonentes","extPonentesComunicacion"];
     const keysTraduction4 = ["Nivel contenidos","Distribución actividades","Tiempo actividades","Seleccion de ponentes","Participación de ponentes","Ponentes comunicación"];
     
-    const keysToValidate5 = ['extPonentesyActividades','plenariaInteresante1','plenariaInteresante1','extOrganizacionSatisfactoria','extSeleccionPonentes','extSatisfaccionAcademico','extRecomendariasCongreso'];
+    const keysToValidate5 = ['extPonentesyActividades','plenariaInteresante1','plenariaInteresante2','extOrganizacionSatisfactoria','extSeleccionPonentes','extSatisfaccionAcademico','extRecomendariasCongreso'];
     const keysTraduction5 = ['Ponentes y actividades','Plenaria interesante 1','plenaria interteresante 2','organización satisfactoria','selección ponentes','satisfacción academico','recomendar congreso'];
 
     const keysToValidate6 = ['extObservaciones'];

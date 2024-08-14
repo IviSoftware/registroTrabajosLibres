@@ -6,7 +6,7 @@ function ContainerQuest({children,percentageState,title}) {
   console.log('percentageState',percentageState)
     
     return (
-        <>
+        <div>
         <NavbarQuest />
         <div className="w-full flex justify-center items-center bg-slate-300">
             <div style={{ maxWidth: "500px", fontSize: "" }} className="bg-white w-full rounded-md p-8 relative bottom-12 md:bottom-24">
@@ -17,7 +17,7 @@ function ContainerQuest({children,percentageState,title}) {
                 </div>
             </div>
         </div>
-        </>
+        </div>
     )
 }
 

@@ -1,0 +1,24 @@
+.fade-enter {
+    opacity: 0;
+    transform: translateX(50%) scale(0.95);
+    filter: blur(10px);
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+    transition: opacity 600ms ease-out, transform 600ms ease-out, filter 600ms ease-out;
+  }
+  
+  .fade-exit {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.95);
+    filter: blur(10px);
+    transition: opacity 500ms ease-in, transform 500ms ease-in, filter 500ms ease-in;
+  }
+  

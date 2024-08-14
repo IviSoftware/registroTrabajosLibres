@@ -1,4 +1,6 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useState,useRef} from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './animations.css'; // Aquí se definirán las animaciones en CSS
 import { WelcomeQuests } from './pages/WelcomeQuests';
 import { Quest1 } from './pages/Quest1';
 
@@ -8,7 +10,8 @@ function App() {
   const [yourParamValue, setYourParamValue] = useState(null);
   const [questState,setQuestState] = useState("start");
   const [questType,setQuestType] = useState("");
-
+  const nodeRef = useRef(null);
+  const nodeRef2 = useRef(null);
 
   useEffect(() => {
     // Obtén la URL actual
@@ -22,12 +25,34 @@ function App() {
     setYourParamValue(paramValue);
   }, []);
 
+  useEffect(() => {
+    // Subir el scroll al inicio cuando show cambie
+    window.scrollTo(0, 0);
+  }, [questState]);
 
   return (<>
+    <TransitionGroup>
+      {questState === "start" && (
+         <CSSTransition
+         in={questState}
+         timeout={300} 
+         classNames="fade"
+         unmountOnExit
+       >
+        <WelcomeQuests setQuestState={setQuestState} setQuestType={setQuestType}/>
+       </CSSTransition>
+          ) }
 
-  
-  {questState === "start" && (<WelcomeQuests setQuestState={setQuestState} setQuestType={setQuestType}/>) }
-  {(questState === "questStarting" && questType==="questOne") && <Quest1 />}
+
+      {(questState === "questStarting" && questType==="questOne") &&  <CSSTransition
+            in={questState}
+            timeout={300} 
+            classNames="fade"
+            unmountOnExit
+          >
+            <Quest1 />
+          </CSSTransition> }
+    </TransitionGroup>
   </>  
   )
 }
