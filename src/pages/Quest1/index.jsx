@@ -20,19 +20,19 @@ function Quest1() {
     const [stage, setStage] = useState(1)
 
 
-    const keysToValidate1 = ["fullName", "age", "state", "extPerfil"];
+    const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraPerfil"];
     const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Perfil"];
     
-    const keysToValidate2 = ["extEspecialidad"];
+    const keysToValidate2 = ["extraEspecialidad"];
     const keysTraduction2 = ["Especialidad"];
     
-    const keysToValidate3 = ["extConsulta","extInstitucionTrabajo","extMedio","extKitAdecuado","extTransmicionAdecuada","extMediosAudioVisuales","extTemasAbordados"];
+    const keysToValidate3 = ["extraConsulta","extInstitucionTrabajo","extraMedioEnteroCongreso","extraKitCongresistaAdecuado","extraTransmisionPonenciasAdecuada","extraMediosAudiovisualesAdecuados","extraTemasActuales"];
     const keysTraduction3 = ["Consulta","Institución de trabajo","Medio por el que se enteró del congreso","Kit adecuado","Transmición adecuada","Medios audiovisuales", "Temas abordados"];
     
-    const keysToValidate4 = ["extNivelContenidos","extDistribucionActividades","extTiempoActividades","extSeleccionPonentes","extParticipacionPonentes","extPonentesComunicacion"];
+    const keysToValidate4 = ["extraNivelContenidos","extraDistribucionActividades","extraTiempoActividades","extraSeleccionPonentes","extraParticipacionPonentes","extraComunicacionPonentes"];
     const keysTraduction4 = ["Nivel contenidos","Distribución actividades","Tiempo actividades","Seleccion de ponentes","Participación de ponentes","Ponentes comunicación"];
     
-    const keysToValidate5 = ['extPonentesyActividades','plenariaInteresante1','plenariaInteresante2','extOrganizacionSatisfactoria','extSeleccionPonentes','extSatisfaccionAcademico','extRecomendariasCongreso'];
+    const keysToValidate5 = ['extraCumplieronObjetivos','extraPlenariasInteresantes1','extraPlenariasInteresantes2','extraOrganizacionCongreso','extraCongresoCumplioExpectativas','extraEscalaObjetivoAcademico','extraRecomendariaCongreso'];
     const keysTraduction5 = ['Ponentes y actividades','Plenaria interesante 1','plenaria interteresante 2','organización satisfactoria','selección ponentes','satisfacción academico','recomendar congreso'];
 
     const keysToValidate6 = ['extObservaciones'];
@@ -56,10 +56,10 @@ function Quest1() {
     return (
         <ContainerQuest title="Encuesta de satisfacción Profesionales (Virtual)" percentageState={percentageState}>
             {stage === 1 && <div className="w-full flex flex-col gap-6">
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="fullName" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="number" text="Edad" name="age" max={3} />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="state" />
-                <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Perfil" options={['Profesional de la salud', 'Enfermera(o)', 'Estudiante']} name="extPerfil" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="number" text="Edad" name="extraEdad" max={3} />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" />
+                <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Perfil" options={['Profesional de la salud', 'Enfermera(o)', 'Estudiante']} name="extraPerfil" />
                 <CautivaBtnForm text="Continuar" onClick={() => {
                     const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
                     if (response.validate === 0) {
@@ -92,7 +92,7 @@ function Quest1() {
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                     text="Especialidad" 
                     options={['Nutrición','Medicina general','Odontología','Psicología','Optometría','Enfermería','Fisioterapeuta','Química/farmacobiología','Activador/Profesor de educación física','Podiatra/Podólogo','Medicina interna','Cardiología','Endocrinología','Ginecología','Nefrología','Oftalmología','Otro']} 
-                    name="extEspecialidad" 
+                    name="extraEspecialidad" 
                 />
 
                 <CautivaBtnForm text="Continuar" onClick={() => {
@@ -125,42 +125,42 @@ function Quest1() {
                <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="Consulta" 
                    options={['Pública','Privada','Ambas','No doy consulta']} 
-                   name="extConsulta" 
+                   name="extraConsulta" 
                />
 
 
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Institución de trabajo" name="extInstitucionTrabajo" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Institución de trabajo" name="extraInstitucionTrabajo" />
 
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="Medio por el que se enteró del congreso" 
                    options={['Revista Diabetes Hoy','Redes sociales','Correo electrónico','Invitación directa']} 
-                   name="extMedio" 
+                   name="extraMedioEnteroCongreso" 
                />
 
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="¿Consideras que el kit de congresista fue adecuado?" 
                    options={['Si','No']} 
-                   name="extKitAdecuado" 
+                   name="extraKitCongresistaAdecuado" 
                />
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="¿La transmisión de las ponencias fue adecuada?" 
                    options={['Si','No']} 
-                   name="extTransmicionAdecuada" 
+                   name="extraTransmisionPonenciasAdecuada" 
                />
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="Los medios audiovisuales dentro de cada ponencia fueron adecuados y visibles en las transmisiones (pantallas, audios, presentaciones, etc.)" 
                    options={['Si','No']} 
-                   name="extMediosAudioVisuales" 
+                   name="extraMediosAudiovisualesAdecuados" 
                />
                 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="¿Te parece que los temas abordados en el programa son de actualidad y necesarios para cumplir el objetivo del congreso?" 
                    options={['Si','No']} 
-                   name="extTemasAbordados" 
+                   name="extraTemasActuales" 
                />
 
                <CautivaBtnForm text="Continuar" onClick={() => {
@@ -193,39 +193,39 @@ function Quest1() {
                <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="El nivel de los contenidos abordados ha sido" 
                    options={['Excelente','Muy bueno','Bueno','Regular','Malo']} 
-                   name="extNivelContenidos" 
+                   name="extraNivelContenidos" 
                />
 
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="La distribución de actividades (ponencias y talleres) fue" 
                    options={['Adecuada','Saturada']} 
-                   name="extDistribucionActividades" 
+                   name="extraDistribucionActividades" 
                />
 
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="El tiempo asignado a cada una de las actividades (ponencias y talleres) fue" 
                    options={['Excelente','Bueno','Insuficiente']} 
-                   name="extTiempoActividades" 
+                   name="extraTiempoActividades" 
                />
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="La selección de los ponentes fue" 
                    options={['Excelente','Muy buena','Buena','Mala','Indiferente']} 
-                   name="extSeleccionPonentes" 
+                   name="extraSeleccionPonentes" 
                />
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="La participación de los ponentes fue" 
                    options={['Excelente','Muy buena','Buena','Mala','Muy mala']} 
-                   name="extParticipacionPonentes" 
+                   name="extraParticipacionPonentes" 
                />
                 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="Crees que los ponentes proporcionaron una buena comunicación durante las actividades" 
                    options={['Si','No']} 
-                   name="extPonentesComunicacion" 
+                   name="extraComunicacionPonentes" 
                />
 
                <CautivaBtnForm text="Continuar" onClick={() => {
@@ -258,35 +258,35 @@ function Quest1() {
                <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="Consideras que los ponentes y actividades cumplieron los objetivos del programa" 
                    options={['Si','No']} 
-                   name="extPonentesyActividades" 
+                   name="extraCumplieronObjetivos" 
                />
 
                 <label className='TextTitleFormComponent'>Menciona al menos dos plenarias, simposios o talleres que te parecieron más interesantes del congreso</label>
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Plenaria 1" name="plenariaInteresante1" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Plenaria 2" name="plenariaInteresante2" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Plenaria 1" name="extraPlenariasInteresantes1" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Plenaria 2" name="extraPlenariasInteresantes2" />
 
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="Consideras que la organización general del congreso ha sido satisfactoria" 
                    options={['Si','No']} 
-                   name="extOrganizacionSatisfactoria" 
+                   name="extraOrganizacionCongreso" 
                />
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
                    text="¿El congreso cumplió tus expectativas?" 
                    options={['Si','No','A medias']} 
-                   name="extSeleccionPonentes" 
+                   name="extraCongresoCumplioExpectativas" 
                />
 
                 <OptionsScale
-                 name="extSatisfaccionAcademico"
+                 name="extraEscalaObjetivoAcademico"
                  label="En una escala del 1 al 10 ¿Considera que el congreso cumplió con su objetivo académico?  ( donde, 1 no cumplió y 10 completamente )"
                  setDataModule={setDataModule}
                  dataModule={dataModule} 
                  />
 
                 <OptionsScale
-                 name="extRecomendariasCongreso"
+                 name="extraRecomendariaCongreso"
                  label="Recomendarías a un familiar, amigo o colega asistir al Congreso Nacional de la Federación Mexicana de Diabetes, A.C. ( donde, 1 Definitivamente no y 10 Definitivamente si )"
                  setDataModule={setDataModule}
                  dataModule={dataModule} 
@@ -322,7 +322,7 @@ function Quest1() {
                
                 <TextAreaCautivaForms 
                     text="Por favor, redacta tus observaciones y conclusiones del congreso" 
-                    name="extObservaciones" 
+                    name="extraObservacionesConclusiones" 
                     max={500} 
                     setDataModule={setDataModule} 
                     dataModule={dataModule} 
