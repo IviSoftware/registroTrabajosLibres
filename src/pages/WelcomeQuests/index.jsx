@@ -45,12 +45,12 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                             } else {
 
                                 localStorage.setItem('emailQuests', email)
-                                setQuestState("questStarting")
-                                //Validariamos el tipo de encuesta a activarse
-                                //Validariamos si ya contesto la encuesta
-                                setQuestType('questOne')
+                                    setQuestState("questStarting")
+                                    //Validariamos el tipo de encuesta a activarse
+                                    //Validariamos si ya contesto la encuesta
+                                    setQuestType('questOne')
 
-                              /*   const response = await validateUser(email);
+                                const response = await validateUser(email);
                                 console.log(response);
                                 if(response.user === 'Error obteniendo usuario'){
                                     Swal.fire({
@@ -62,7 +62,7 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                     localStorage.setItem('emailQuests', email)
                                     setQuestState("questStarting")
                                     setQuestType('questOne')
-                                } */
+                                }
                             }
                         }
                     }}
