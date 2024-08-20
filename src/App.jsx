@@ -6,6 +6,7 @@ import { Quest1 } from './pages/Quest1';
 import { Quest2 } from './pages/Quest2';
 import { Quest3 } from './pages/Quest3';
 import { Quest4 } from './pages/Quest4';
+import { SupportButton } from './components/atomos/SupportButton';
 
 
 
@@ -34,6 +35,7 @@ function App() {
   }, [questState]);
 
   return (<>
+    <SupportButton />
     <TransitionGroup>
       {questState === "start" && (
         <CSSTransition
