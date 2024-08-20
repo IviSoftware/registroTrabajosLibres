@@ -66,7 +66,7 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
 
                                     if(response.data.slugEncuestaContestada){
                                         Swal.fire({
-                                            title: "Ya habías enviando tus respuestas :)",
+                                            title: "¡Parece que ya has enviado tus respuestas! 😊",
                                             icon: "info"
                                         });
                                     }else{
