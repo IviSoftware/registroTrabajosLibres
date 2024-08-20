@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import { Navbar } from '../../components/Navbar';
 import { CautivaBtnForm } from "../../components/atomos/CautivaBtnForm";
 import { validateUser } from "../../services/userService";
+import { json } from "react-router-dom";
 
 
 function WelcomeQuests({ setQuestState,setQuestType }) {
@@ -47,7 +48,7 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                 localStorage.setItem('emailQuests', email)        
                            
                                 const response = await validateUser(email);
-                                console.log(response);
+                                console.log(response,'response');
                                 if(response.message === 'No se encontraron datos para el correo proporcionado.'){
                                 
                                     Swal.fire({
@@ -57,14 +58,44 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                     })
                                 
                                 }else if(response.message === 'Datos del usuario obtenidos exitosamente.'){
+                                    //guardamos el meta data
+                                    console.log('response.data.metaData',response.data.metadaData)
+                                    localStorage.setItem('metadataUser',JSON.stringify(response.data.metadaData));
 
                                     //Validariamos si ya contesto la encuesta
-                                    //Validariamos el tipo de encuesta a activarse
-                                    localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
-                                    localStorage.setItem('emailAsistente',response.data.correo)
-                                    localStorage.setItem('emailQuests', email)
-                                    setQuestState("questStarting")
-                                    setQuestType('questOne')
+
+                                    if(response.data.slugEncuestaContestada){
+                                        Swal.fire({
+                                            title: "Ya habías enviando tus respuestas :)",
+                                            icon: "info"
+                                        });
+                                    }else{
+                                        //Validariamos el tipo de encuesta a activarse
+                                        localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
+                                        localStorage.setItem('emailAsistente',response.data.correo)
+                                        localStorage.setItem('emailQuests', email)
+                                        
+                                        switch (response.data.slugEncuesta) {
+                                            case "sat_con_per_pro_vir":
+                                                setQuestType('questOne');
+                                                break;
+
+                                            case "sat_con_per_pro_pre":
+                                                setQuestType('questTwo');
+                                                break;
+
+                                            case "sat_con_per_gen_vir":
+                                                setQuestType('questThree');
+                                                break;
+
+                                            case "sat_con_per_gen_pre":
+                                                setQuestType('questFour');
+                                                break;
+                                        }
+                                        
+                                        setQuestState("questStarting")
+                                       
+                                    }
                                 }else{
                                     Swal.fire({
                                         title:"Parece que ocurrio un error",

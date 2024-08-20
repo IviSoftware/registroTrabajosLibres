@@ -10,11 +10,14 @@ import { GrFormNext } from "react-icons/gr";
 import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaForms";
 import { CorrectQuestSend } from "../CorrectQuestSend";
 import Confetti from 'react-confetti';
+import { sendData } from "../../services/userService";
 
 function Quest3() {
     const [percentageState, setPercentageState] = useState(10);
     const [dataModule, setDataModule] = useState([]);
     const [stage, setStage] = useState(1);
+    const [sendingData,setSendingData] = useState(false);
+    const [errorApiGet,setErrorApiGet] = useState(false);
 
     const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraVivesCon"];
     const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Vives con"];
@@ -28,13 +31,33 @@ function Quest3() {
     const keysToValidate4 = ["extraNivelContenidos", "extraDistribucionActividades", "extraTiempoActividades", "extraSeleccionPonentes", "extraParticipacionPonentes", "extraComunicacionPonentes"];
     const keysTraduction4 = ["Nivel de contenidos", "Distribución de actividades", "Tiempo de actividades", "Selección de ponentes", "Participación de ponentes", "Comunicación de ponentes"];
 
-    const keysToValidate5 = ["extraCumplieronObjetivos", "extraPlenariasInteresantes","extraPlenariasInteresantes2", "extraOrganizacionCongreso", "extraCongresoCumplioExpectativas", "extraEscalaObjetivoAcademico", "extraRecomendariaCongreso","extraAcudiria34Congreso"];
+    const keysToValidate5 = ["extraCumplieronObjetivos", "extraPlenariasInteresantes1","extraPlenariasInteresantes2", "extraOrganizacionCongreso", "extraCongresoCumplioExpectativas", "extraEscalaObjetivoAcademico", "extraRecomendariaCongreso","extraAcudiria34Congreso"];
     const keysTraduction5 = ["Cumplimiento de objetivos", "Plenarias interesantes","Plenarias interesantes 2", "Organización del congreso", "Cumplimiento de expectativas", "Escala de objetivo académico", "Recomendación del congreso","Acudiras al congreso"];
 
     const keysToValidate6 = ["extraObservacionesConclusiones"];
     const keysTraduction6 = ["Observaciones"];
 
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    const [typeError,setTypeError] = useState("");
+
+    const sendDataToAPI = async ()=>{
+        setSendingData(true)
+        try {
+            const apiResponse = await sendData(dataModule,"sat_con_per_gen_vir");
+            if(apiResponse.title==="error"){
+                setErrorApiGet(true)
+            }
+            console.log(apiResponse)
+            setSendingData(false);
+        } catch (error) {
+            setErrorApiGet(true)
+            console.error("Ocurrio un error en la petición",error)
+            setTypeError(error)
+            setSendingData(false);
+        }
+
+      }
 
     return (
         <ContainerQuest title="Encuesta de satisfacción Personas que viven con diabetes, familiares y público en general (Virtual)" percentageState={percentageState}>
@@ -152,7 +175,7 @@ function Quest3() {
 
             {stage === 5 && <div className="w-full flex flex-col gap-6">
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿Consideras que los ponentes y actividades han cumplido los objetivos del programa?" options={['Sí', 'No']} name="extraCumplieronObjetivos" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona una conferencia que te pareció interesante" name="extraPlenariasInteresantes" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona una conferencia que te pareció interesante" name="extraPlenariasInteresantes1" />
                 <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona otra conferencia que te pareció interesante" name="extraPlenariasInteresantes2" />
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿Consideras que la organización general del congreso fue satisfactoria?" options={['Sí', 'No']} name="extraOrganizacionCongreso" />
@@ -220,6 +243,7 @@ function Quest3() {
                         setPercentageState(100);
                         console.log(dataModule)
                         window.scrollTo({ top: 0, behavior: 'smooth' });
+                        sendDataToAPI()
                     } else {
                         Swal.fire({
                             title: "Por favor rellene todos los campos",
@@ -230,6 +254,17 @@ function Quest3() {
                     <GrFormNext className="btnIcon" />
                 </CautivaBtnForm>
             </div>}
+
+            {sendingData  && <div className="w-full flex flex-col gap-6">
+             <p>Enviando info...</p>
+                
+            </div>}
+
+            {
+                errorApiGet && <>
+                    <p>Ocurrio un error , contacte a soporte : {typeError}</p>
+                </>
+            }
 
             {stage === 7 && <div className="w-full flex flex-col gap-6">
                 <Confetti

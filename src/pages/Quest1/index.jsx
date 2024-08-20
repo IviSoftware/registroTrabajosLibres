@@ -39,6 +39,7 @@ function Quest1() {
     const keysToValidate6 = ['extraObservacionesConclusiones'];
     const keysTraduction6 = ['Observaciones'];
     const [errorApiGet,setErrorApiGet] = useState(false)
+    const [typeError,setTypeError] = useState("");
 
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
@@ -68,6 +69,7 @@ function Quest1() {
             setErrorApiGet(true)
             console.error("Ocurrio un error en la petición",error)
             setSendingData(false);
+            setTypeError(error)
         }
 
       }
@@ -390,7 +392,7 @@ function Quest1() {
 
           {
             errorApiGet && <>
-                <p>Ocurrio un error , contacte a soporte</p>
+                <p>Ocurrio un error , contacte a soporte </p>
             </>
           }
 

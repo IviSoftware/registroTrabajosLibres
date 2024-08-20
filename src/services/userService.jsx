@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
-import { formatSurveyResponse1 } from "../utils";
+import { formatSurveyResponse1,formatSurveyResponse2,formatSurveyResponse3,formatSurveyResponse4 } from "../utils";
 const API = "https://api.encuestas.integrameetings.com/cnd2024/"
 
 const validateUser = async (userEmail) => {
     const jsonBody = {
-        "evento": "13",
+        "evento": "5",
         "action": "getUserByEmail",
         "email": userEmail
     }         
@@ -30,11 +30,25 @@ const sendData = async (data,slug)=>{
     
     console.log("sendData");
 
+    const metadataUser = JSON.parse(localStorage.getItem('metadataUser'))
+
     let dataFormatted = '';
 
     switch (slug) {
         case "sat_con_per_pro_vir":
             dataFormatted = formatSurveyResponse1(data)
+        break;
+
+        case "sat_con_per_pro_pre":
+            dataFormatted = formatSurveyResponse2(data)
+        break;
+
+        case "sat_con_per_gen_vir":
+            dataFormatted = formatSurveyResponse3(data)
+        break;
+
+        case "sat_con_per_gen_pre":
+            dataFormatted = formatSurveyResponse4(data)
         break;
     
         default:
@@ -52,7 +66,8 @@ const sendData = async (data,slug)=>{
         "email": email,
         "asistenteId":asistantId,
         "slug": slug,
-        "respuestas":responses
+        "respuestas":responses,
+        "metadata":metadataUser
     }
 
     console.log(bodyConstructor)
@@ -62,16 +77,11 @@ const sendData = async (data,slug)=>{
         headers:{
             'Content-Type':'application/json',
         },
-        body: JSON.stringify({
-            "action": "saveSatisfactionSurveyResponses",
-            "email": email,
-            "asistenteId":asistantId,
-            "slug": slug,
-            "respuestas":bodyConstructor
-        })
+        body: JSON.stringify(bodyConstructor)
     }); 
 
     const json = await apiRes.json();
+    console.log('jsooon',json)
     return json
 }
 

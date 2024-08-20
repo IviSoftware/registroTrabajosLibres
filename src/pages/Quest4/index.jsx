@@ -10,11 +10,15 @@ import { GrFormNext } from "react-icons/gr";
 import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaForms";
 import { CorrectQuestSend } from "../CorrectQuestSend";
 import Confetti from 'react-confetti';
+import { sendData } from "../../services/userService";
 
 function Quest4() {
     const [percentageState, setPercentageState] = useState(10);
     const [dataModule, setDataModule] = useState([]);
     const [stage, setStage] = useState(1);
+
+    const [sendingData,setSendingData] = useState(false);
+    const [errorApiGet,setErrorApiGet] = useState(false);
 
     const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraTipoDiabetes"];
     const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Tipo de diabetes"];
@@ -35,6 +39,26 @@ function Quest4() {
     const keysTraduction6 = ["Observaciones"];
 
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    const [typeError,setTypeError] = useState("");
+
+    const sendDataToAPI = async ()=>{
+        setSendingData(true)
+        try {
+            const apiResponse = await sendData(dataModule,"sat_con_per_gen_pre");
+            if(apiResponse.title==="error"){
+                setErrorApiGet(true)
+            }
+            console.log(apiResponse)
+            setSendingData(false);
+        } catch (error) {
+            setErrorApiGet(true)
+            console.error("Ocurrio un error en la petición",error)
+            setTypeError(error)
+            setSendingData(false);
+        }
+
+      }
 
     return (
         <ContainerQuest title="Encuesta de satisfacción Personas que viven con diabetes, familiares y público en general (Presencial)" percentageState={percentageState}>
@@ -206,7 +230,7 @@ function Quest4() {
             {stage === 6 && <div className="w-full flex flex-col gap-6">
                 <TextAreaCautivaForms 
                     text="Por favor, redacta tus observaciones y conclusiones del congreso" 
-                    name="extraObservaciones" 
+                    name="extraObservacionesConclusiones" 
                     max={500} 
                     setDataModule={setDataModule} 
                     dataModule={dataModule} 
@@ -225,6 +249,7 @@ function Quest4() {
                         setPercentageState(100);
                         console.log(dataModule)
                         window.scrollTo({ top: 0, behavior: 'smooth' });
+                        sendDataToAPI()
                     } else {
                         Swal.fire({
                             title: "Por favor rellene todos los campos",
@@ -235,6 +260,18 @@ function Quest4() {
                     <GrFormNext className="btnIcon" />
                 </CautivaBtnForm>
             </div>}
+
+
+            {sendingData  && <div className="w-full flex flex-col gap-6">
+             <p>Enviando info...</p>
+                
+            </div>}
+
+            {
+                errorApiGet && <>
+                    <p>Ocurrio un error , contacte a soporte : {typeError}</p>
+                </>
+            }
 
             {stage === 7 && <div className="w-full flex flex-col gap-6">
                 <Confetti

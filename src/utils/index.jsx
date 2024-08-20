@@ -34,6 +34,7 @@ function validateObjectFields(obj, keys, translations) {
 function formatSurveyResponse1(inputObject) {
     // Crear el objeto de salida con los valores fijos
     let responses = {};
+   
 
     // Mapeo de las respuestas
     const responseKeys = [
@@ -83,4 +84,170 @@ function formatSurveyResponse1(inputObject) {
 }
 
 
-export { validateObjectFields, formatSurveyResponse1 };
+function formatSurveyResponse2(inputObject) {
+    // Crear el objeto de salida con los valores fijos
+    let responses = {};
+
+    // Mapeo de las respuestas
+    const responseKeys = [
+        "extraEdad",
+        "extraEstadoProcedencia",
+        "extraPerfil",
+        "extraEspecialidad",
+        "extraConsulta",
+        "extraInstitucionTrabajo",
+        "extraMedioEnteroCongreso",
+        "extraInstalacionSedeCongresoAdecuada",
+        "extraDistribucionSalonesAdecuada",
+        "extraZonaComercialInfoRelevanteObjetivoCongreso",
+        "extraViajeSaludIdeaInnovadoraAcordeObjectivoCongreso",
+        "extraNivelContenidos",
+        "extraDistribucionActividades",
+        "extraTiempoActividades",
+        "extraSeleccionPonentes",
+        "extraParticipacionPonentes",
+        "extraComunicacionPonentes",
+        "extraCumplieronObjetivos",
+        "extraOrganizacionCongreso",
+        "extraCongresoCumplioExpectativas",
+        "extraEscalaObjetivoAcademico",
+        "extraRecomendariaCongreso",
+        "extraAcudiria34Congreso",
+        "extraObservacionesConclusiones",
+        "extraMediosAudiovisualesAdecuados",
+        "extraTemasActuales"
+    ];
+
+    // Rellenar las respuestas con los valores del objeto de entrada
+    responseKeys.forEach(key => {
+        if (inputObject[key]) {
+            responses[key] = inputObject[key];
+        } else {
+            console.log("Falta:", key);
+        }
+    });
+
+    // Combinar extraPlenariasInteresantes1 y extraPlenariasInteresantes2 en un array y luego en un string
+    const extraPlenariasInteresantes1 = inputObject.extraPlenariasInteresantes1 || '';
+    const extraPlenariasInteresantes2 = inputObject.extraPlenariasInteresantes2 || '';
+    const extraPlenariasInteresantesArray = [extraPlenariasInteresantes1, extraPlenariasInteresantes2].filter(item => item !== '');
+    responses.extraPlenariasInteresantes = extraPlenariasInteresantesArray.join(', ');
+
+    // Devolver el objeto formateado
+    return responses;
+}
+
+
+function formatSurveyResponse3(inputObject) {
+    // Crear el objeto de salida con los valores fijos
+    let responses = {};
+
+    // Mapeo de las respuestas
+    const responseKeys = [
+        "extraEdad",
+        "extraEstadoProcedencia",
+        "extraVivesCon",
+        "extraTelefono",
+        "extraMedioEnteroCongreso",
+        "extraKitCongresistaAdecuado",
+        "extraTransmisionPonenciasAdecuada",
+        "extraMediosAudiovisualesAdecuados",
+        "extraTemasActuales",
+        "extraNivelContenidos",
+        "extraDistribucionActividades",
+        "extraTiempoActividades",
+        "extraSeleccionPonentes",
+        "extraParticipacionPonentes",
+        "extraComunicacionPonentes",
+        "extraCumplieronObjetivos",
+        "extraOrganizacionCongreso",
+        "extraCongresoCumplioExpectativas",
+        "extraEscalaObjetivoAcademico",
+        "extraRecomendariaCongreso",
+        "extraAcudiria34Congreso",
+        "extraObservacionesConclusiones",
+        "extraSugerencias"
+    ];
+
+    // Rellenar las respuestas con los valores del objeto de entrada
+    responseKeys.forEach(key => {
+        if (inputObject[key]) {
+            responses[key] = inputObject[key];
+        } else {
+            console.log("Falta:", key);
+        }
+    });
+
+    // Combinar extraPlenariasInteresantes1 y extraPlenariasInteresantes2 en un array y luego en un string
+    const extraPlenariasInteresantes1 = inputObject.extraPlenariasInteresantes1 || '';
+    const extraPlenariasInteresantes2 = inputObject.extraPlenariasInteresantes2 || '';
+    const extraPlenariasInteresantesArray = [extraPlenariasInteresantes1, extraPlenariasInteresantes2].filter(item => item !== '');
+    responses.extraPlenariasInteresantes = extraPlenariasInteresantesArray.join(', ');
+
+    // Devolver el objeto formateado
+    return responses;
+}
+
+
+
+
+function formatSurveyResponse4(inputObject) {
+    // Crear el objeto de salida con los valores fijos
+    let responses = {};
+
+    // Mapeo de las respuestas
+    const responseKeys = [  
+        "extraEdad",
+        "extraEstadoProcedencia",
+        "extraTipoDiabetes",
+        "extraTelefono",
+        "extraMedioEnteroCongreso",
+        "extraKitCongresistaAdecuado",
+        "extraTransmisionPonenciasAdecuada",
+        "extraMediosAudiovisualesAdecuados",
+        "extraInstalacionesAdecuadas",
+        "extraDistribucionSalones",
+        "extraMediosAudiovisualesVisibles",
+        "extraStandsInformacionRelevante",
+        "extraViajeSaludInnovador",
+        "extraTemasActuales",
+        "extraNivelContenidos",
+        "extraDistribucionActividades",
+        "extraTiempoActividades",
+        "extraSeleccionPonentes",
+        "extraParticipacionPonentes",
+        "extraComunicacionPonentes",
+        "extraCumplieronObjetivos",
+        "extraOrganizacionCongreso",
+        "extraCongresoCumplioExpectativas",
+        "extraEscalaObjetivoAcademico",
+        "extraRecomendariaCongreso",
+        "extraAcudiria34Congreso",
+        "extraObservacionesConclusiones",
+        "extraSugerencias"
+    ];
+
+    // Rellenar las respuestas con los valores del objeto de entrada
+    responseKeys.forEach(key => {
+        if (inputObject[key]) {
+            responses[key] = inputObject[key];
+        } else {
+            console.log("Falta:", key);
+        }
+    });
+
+
+    // Combinar extraPlenariasInteresantes1 y extraPlenariasInteresantes2 en un array y luego en un string
+    const extraPlenariasInteresantes1 = inputObject.extraConferenciaInteresantes1 || '';
+    const extraPlenariasInteresantes2 = inputObject.extraConferenciaInteresantes2 || '';
+    const extraPlenariasInteresantesArray = [extraPlenariasInteresantes1, extraPlenariasInteresantes2].filter(item => item !== '');
+    responses.extraConferenciasInteresantes = extraPlenariasInteresantesArray.join(', ');
+
+
+
+    // Devolver el objeto formateado
+    return responses;
+}
+
+
+export { validateObjectFields, formatSurveyResponse1, formatSurveyResponse2,formatSurveyResponse3,formatSurveyResponse4};
