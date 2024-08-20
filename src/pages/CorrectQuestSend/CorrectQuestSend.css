@@ -1,0 +1,25 @@
+/* Animación de escala y desvanecimiento */
+.scale-fade-appear,
+.scale-fade-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+.scale-fade-appear-active,
+.scale-fade-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Animación de desvanecimiento hacia arriba */
+.fade-up-appear,
+.fade-up-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.fade-up-appear-active,
+.fade-up-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}

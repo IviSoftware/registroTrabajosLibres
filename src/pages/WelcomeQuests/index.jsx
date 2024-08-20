@@ -7,6 +7,7 @@ import { Navbar } from '../../components/Navbar';
 import { CautivaBtnForm } from "../../components/atomos/CautivaBtnForm";
 import { validateUser } from "../../services/userService";
 import { json } from "react-router-dom";
+import { CorrectQuestSend } from "../CorrectQuestSend";
 
 
 function WelcomeQuests({ setQuestState,setQuestType }) {
@@ -15,6 +16,7 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
     return (
         <div>
             <Navbar />
+   
             <div className="flex items-center justify-center" style={{ maxWidth: "550px", margin: "0 auto" }} >
                 <div className="text-center p-6">
                     <h1 className="text-3xl font-bold mt-12 mb-8" >
