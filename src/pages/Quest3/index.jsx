@@ -11,6 +11,7 @@ import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaFor
 import { CorrectQuestSend } from "../CorrectQuestSend";
 import Confetti from 'react-confetti';
 import { sendData } from "../../services/userService";
+import { NumberCautivaInput } from "../../components/atomos/NumberCautivaInput";
 
 function Quest3() {
     const [percentageState, setPercentageState] = useState(10);
@@ -90,7 +91,8 @@ function Quest3() {
             </div>}
 
             {stage === 2 && <div className="w-full flex flex-col gap-6">
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="number" text="Teléfono"  name="extraTelefono" />
+                <NumberCautivaInput setDataModule={setDataModule} dataModule={dataModule} text="Teléfono"  name="extraTelefono" />
+ 
                 <CautivaBtnForm text="Continuar" onClick={() => {
                     const response = validateObjectFields(dataModule, keysToValidate2, keysTraduction2);
                     if (response.validate === 0) {

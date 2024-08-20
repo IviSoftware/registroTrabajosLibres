@@ -399,8 +399,7 @@ function Quest1() {
 
            {(stage === 7 && !sendingData && !errorApiGet)  && <div className="w-full flex flex-col gap-6">
              <Confetti
-                width={dimensions.width}
-                height={dimensions.height}
+
                 recycle={false}  // Confeti se lanza una sola vez
              />
              <CorrectQuestSend />
