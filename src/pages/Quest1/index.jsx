@@ -9,15 +9,16 @@ import { OptionsScale } from "../../components/atomos/OptionsScale";
 import { GrFormNext } from "react-icons/gr";
 import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaForms";
 import { CorrectQuestSend } from "../CorrectQuestSend";
+import { sendData } from "../../services/userService";
+
 import Confetti from 'react-confetti';
-
-
 
 
 function Quest1() {
     const [percentageState, setPercentageState] = useState(10);
     const [dataModule, setDataModule] = useState([]);
     const [stage, setStage] = useState(1)
+    const [sendingData,setSendingData] = useState(false)
 
 
     const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraPerfil"];
@@ -26,17 +27,18 @@ function Quest1() {
     const keysToValidate2 = ["extraEspecialidad"];
     const keysTraduction2 = ["Especialidad"];
     
-    const keysToValidate3 = ["extraConsulta","extInstitucionTrabajo","extraMedioEnteroCongreso","extraKitCongresistaAdecuado","extraTransmisionPonenciasAdecuada","extraMediosAudiovisualesAdecuados","extraTemasActuales"];
+    const keysToValidate3 = ["extraConsulta","extraInstitucionTrabajo","extraMedioEnteroCongreso","extraKitCongresistaAdecuado","extraTransmisionPonenciasAdecuada","extraMediosAudiovisualesAdecuados","extraTemasActuales"];
     const keysTraduction3 = ["Consulta","Institución de trabajo","Medio por el que se enteró del congreso","Kit adecuado","Transmición adecuada","Medios audiovisuales", "Temas abordados"];
     
     const keysToValidate4 = ["extraNivelContenidos","extraDistribucionActividades","extraTiempoActividades","extraSeleccionPonentes","extraParticipacionPonentes","extraComunicacionPonentes"];
     const keysTraduction4 = ["Nivel contenidos","Distribución actividades","Tiempo actividades","Seleccion de ponentes","Participación de ponentes","Ponentes comunicación"];
     
-    const keysToValidate5 = ['extraCumplieronObjetivos','extraPlenariasInteresantes1','extraPlenariasInteresantes2','extraOrganizacionCongreso','extraCongresoCumplioExpectativas','extraEscalaObjetivoAcademico','extraRecomendariaCongreso'];
-    const keysTraduction5 = ['Ponentes y actividades','Plenaria interesante 1','plenaria interteresante 2','organización satisfactoria','selección ponentes','satisfacción academico','recomendar congreso'];
+    const keysToValidate5 = ['extraCumplieronObjetivos','extraPlenariasInteresantes1','extraPlenariasInteresantes2','extraOrganizacionCongreso','extraCongresoCumplioExpectativas','extraEscalaObjetivoAcademico','extraRecomendariaCongreso','extraAcudiria34Congreso'];
+    const keysTraduction5 = ['Ponentes y actividades','Plenaria interesante 1','plenaria interteresante 2','organización satisfactoria','selección ponentes','satisfacción academico','recomendar congreso','acudirias al congreso'];
 
-    const keysToValidate6 = ['extObservaciones'];
+    const keysToValidate6 = ['extraObservacionesConclusiones'];
     const keysTraduction6 = ['Observaciones'];
+    const [errorApiGet,setErrorApiGet] = useState(false)
 
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
@@ -52,6 +54,23 @@ function Quest1() {
           window.removeEventListener('resize', handleResize);
         };
       }, []);
+
+      const sendDataToAPI = async ()=>{
+        setSendingData(true)
+        try {
+            const apiResponse = await sendData(dataModule,"sat_con_per_pro_vir");
+            if(apiResponse.title==="error"){
+                setErrorApiGet(true)
+            }
+            console.log(apiResponse)
+            setSendingData(false);
+        } catch (error) {
+            setErrorApiGet(true)
+            console.error("Ocurrio un error en la petición",error)
+            setSendingData(false);
+        }
+
+      }
 
     return (
         <ContainerQuest title="Encuesta de satisfacción Profesionales (Virtual)" percentageState={percentageState}>
@@ -292,6 +311,14 @@ function Quest1() {
                  dataModule={dataModule} 
                  />
 
+
+                <OptionsScale
+                 name="extraAcudiria34Congreso"
+                 label="Acudirías al 34° Congreso Nacional de Diabetes ( donde, 1 Definitivamente no y 10 Definitivamente si )"
+                 setDataModule={setDataModule}
+                 dataModule={dataModule} 
+                 />
+
                <CautivaBtnForm text="Continuar" onClick={() => {
                    const response = validateObjectFields(dataModule, keysToValidate5, keysTraduction5);
                    if (response.validate === 0) {
@@ -341,7 +368,9 @@ function Quest1() {
                     setStage(7)
                     setPercentageState(100)
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                       console.log(dataModule)
+                    console.log(dataModule)
+                    sendDataToAPI()
+                    setSendingData(true);
                    } else {
                        Swal.fire({
                            title: "Por favor rellene todos los campos",
@@ -354,8 +383,19 @@ function Quest1() {
                </CautivaBtnForm>
            </div>}
 
+           {sendingData  && <div className="w-full flex flex-col gap-6">
+             <p>Enviando info...</p>
+              
+          </div>}
 
-           {stage === 7 && <div className="w-full flex flex-col gap-6">
+          {
+            errorApiGet && <>
+                <p>Ocurrio un error , contacte a soporte</p>
+            </>
+          }
+
+
+           {(stage === 7 && !sendingData && !errorApiGet)  && <div className="w-full flex flex-col gap-6">
              <Confetti
                 width={dimensions.width}
                 height={dimensions.height}

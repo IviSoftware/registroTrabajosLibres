@@ -44,24 +44,33 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                 });
                             } else {
 
-                                localStorage.setItem('emailQuests', email)
-                                    setQuestState("questStarting")
-                                    //Validariamos el tipo de encuesta a activarse
-                                    //Validariamos si ya contesto la encuesta
-                                    setQuestType('questOne')
-
+                                localStorage.setItem('emailQuests', email)        
+                           
                                 const response = await validateUser(email);
                                 console.log(response);
-                                if(response.user === 'Error obteniendo usuario'){
+                                if(response.message === 'No se encontraron datos para el correo proporcionado.'){
+                                
                                     Swal.fire({
                                         title:"Parece que aún no estás registrado. Para poder hacer la encuesta, primero necesitas registrarte. ",
                                         text:"Si no es el caso, estamos en soporte para asistirte.",
                                         icon:"info"
                                     })
-                                }else{
+                                
+                                }else if(response.message === 'Datos del usuario obtenidos exitosamente.'){
+
+                                    //Validariamos si ya contesto la encuesta
+                                    //Validariamos el tipo de encuesta a activarse
+                                    localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
+                                    localStorage.setItem('emailAsistente',response.data.correo)
                                     localStorage.setItem('emailQuests', email)
                                     setQuestState("questStarting")
                                     setQuestType('questOne')
+                                }else{
+                                    Swal.fire({
+                                        title:"Parece que ocurrio un error",
+                                        text:`mande captura a soporte para ayudarle, código de error: ${response.message}`,
+                                        icon:"error"
+                                    })
                                 }
                             }
                         }

@@ -31,4 +31,56 @@ function validateObjectFields(obj, keys, translations) {
     return { validate: 1, fields: [] };
 }
 
-export { validateObjectFields };
+function formatSurveyResponse1(inputObject) {
+    // Crear el objeto de salida con los valores fijos
+    let responses = {};
+
+    // Mapeo de las respuestas
+    const responseKeys = [
+        "extraEdad",
+        "extraEstadoProcedencia",
+        "extraPerfil",
+        "extraEspecialidad",
+        "extraConsulta",
+        "extraInstitucionTrabajo",
+        "extraMedioEnteroCongreso",
+        "extraKitCongresistaAdecuado",
+        "extraTransmisionPonenciasAdecuada",
+        "extraMediosAudiovisualesAdecuados",
+        "extraTemasActuales",
+        "extraNivelContenidos",
+        "extraDistribucionActividades",
+        "extraTiempoActividades",
+        "extraSeleccionPonentes",
+        "extraParticipacionPonentes",
+        "extraComunicacionPonentes",
+        "extraCumplieronObjetivos",
+        "extraOrganizacionCongreso",
+        "extraCongresoCumplioExpectativas",
+        "extraEscalaObjetivoAcademico",
+        "extraRecomendariaCongreso",
+        "extraAcudiria34Congreso",
+        "extraObservacionesConclusiones"
+    ];
+
+    // Rellenar las respuestas con los valores del objeto de entrada
+    responseKeys.forEach(key => {
+        if (inputObject[key]) {
+            responses[key] = inputObject[key];
+        } else {
+            console.log("Falta:", key);
+        }
+    });
+
+    // Combinar extraPlenariasInteresantes1 y extraPlenariasInteresantes2 en un array y luego en un string
+    const extraPlenariasInteresantes1 = inputObject.extraPlenariasInteresantes1 || '';
+    const extraPlenariasInteresantes2 = inputObject.extraPlenariasInteresantes2 || '';
+    const extraPlenariasInteresantesArray = [extraPlenariasInteresantes1, extraPlenariasInteresantes2].filter(item => item !== '');
+    responses.extraPlenariasInteresantes = extraPlenariasInteresantesArray.join(', ');
+
+    // Devolver el objeto formateado
+    return responses;
+}
+
+
+export { validateObjectFields, formatSurveyResponse1 };
