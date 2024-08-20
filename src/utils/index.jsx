@@ -6,6 +6,11 @@ function validateObjectFields(obj, keys, translations) {
         return { validate: 3, fields: [] };
     }
 
+    // Verificar si el campo "extraEdad" es menor a 18
+    if (obj.extraEdad && Number(obj.extraEdad) < 18) {
+        return { validate: 4, fields: ["extraEdad"] };
+    }
+
     // Verificar si todas las claves especificadas tienen valores
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
@@ -30,6 +35,7 @@ function validateObjectFields(obj, keys, translations) {
     // Si todos los campos están llenos
     return { validate: 1, fields: [] };
 }
+
 
 function formatSurveyResponse1(inputObject) {
     // Crear el objeto de salida con los valores fijos
@@ -250,4 +256,18 @@ function formatSurveyResponse4(inputObject) {
 }
 
 
-export { validateObjectFields, formatSurveyResponse1, formatSurveyResponse2,formatSurveyResponse3,formatSurveyResponse4};
+const getBasicData = ()=>{
+    const fullName = localStorage.getItem('nombreAsistente');
+    const telefonoAsistente = localStorage.getItem('telefonoAsistente')
+    const estadoProcedenciaAsistente = localStorage.getItem('estadoProcedenciaAsistente')
+
+    return {
+        fullName,
+        telefonoAsistente,
+        estadoProcedenciaAsistente
+    }
+
+}
+
+
+export { validateObjectFields, formatSurveyResponse1, formatSurveyResponse2,formatSurveyResponse3,formatSurveyResponse4,getBasicData};

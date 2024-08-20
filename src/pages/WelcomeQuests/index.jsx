@@ -61,7 +61,7 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                 
                                 }else if(response.message === 'Datos del usuario obtenidos exitosamente.'){
                                     //guardamos el meta data
-                                    console.log('response.data.metaData',response.data.metadaData)
+                                    console.log('response.data',response.data)
                                     localStorage.setItem('metadataUser',JSON.stringify(response.data.metadaData));
 
                                     //Validariamos si ya contesto la encuesta
@@ -76,6 +76,9 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                         localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
                                         localStorage.setItem('emailAsistente',response.data.correo)
                                         localStorage.setItem('emailQuests', email)
+                                        localStorage.setItem('nombreAsistente', `${response.data.nombre} ${response.data.nombre}`)
+                                        localStorage.setItem('telefonoAsistente', response.data.metadaData.telefono);
+                                        localStorage.setItem('estadoProcedenciaAsistente', response.data.metadaData.estado);
                                         
                                         switch (response.data.slugEncuesta) {
                                             case "sat_con_per_pro_vir":

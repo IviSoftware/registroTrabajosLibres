@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import Swal from 'sweetalert2'
-import { validateObjectFields } from "../../utils";
+import { validateObjectFields,getBasicData } from "../../utils";
 import { ContainerQuest } from "../../components/ContainerQuest"
 import { InputCautivaForms } from "../../components/InputCautivaForms"
 import { OptionsCautivaForms } from "../../components/OptionsCautivaForms";
@@ -11,6 +11,7 @@ import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaFor
 import { CorrectQuestSend } from "../CorrectQuestSend";
 import { sendData } from "../../services/userService";
 
+
 import Confetti from 'react-confetti';
 
 
@@ -19,6 +20,8 @@ function Quest1() {
     const [dataModule, setDataModule] = useState([]);
     const [stage, setStage] = useState(1)
     const [sendingData,setSendingData] = useState(false)
+
+    const {  fullName,estadoProcedenciaAsistente } = getBasicData()
 
 
     const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraPerfil"];
@@ -77,19 +80,25 @@ function Quest1() {
     return (
         <ContainerQuest title="Encuesta de satisfacción Profesionales (Virtual)" percentageState={percentageState}>
             {stage === 1 && <div className="w-full flex flex-col gap-6">
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" value={fullName} />
                 <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="number" text="Edad" name="extraEdad" max={3} />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" value={estadoProcedenciaAsistente}/>
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Perfil" options={['Profesional de la salud', 'Enfermera(o)', 'Estudiante']} name="extraPerfil" />
                 <CautivaBtnForm text="Continuar" onClick={() => {
                     const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+                   
                     if (response.validate === 0) {
                         Swal.fire({
                             title: "Faltan por rellenar",
                             text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
                             icon: "info"
                         });
-                    } else if (response.validate == 1) {
+                    }else if(response.validate === 4){
+                        Swal.fire({
+                            title: "Por favor coloque una edad valida",
+                            icon: "info"
+                        });
+                    }else if (response.validate == 1) {
                         setStage(2)
                         setPercentageState(30)
                         console.log(dataModule)

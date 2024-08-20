@@ -39,6 +39,8 @@ function Quest4() {
     const keysToValidate6 = ["extraObservacionesConclusiones"];
     const keysTraduction6 = ["Observaciones"];
 
+    const {  fullName,estadoProcedenciaAsistente,telefonoAsistente } = getBasicData()
+
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
     const [typeError,setTypeError] = useState("");
@@ -64,9 +66,9 @@ function Quest4() {
     return (
         <ContainerQuest title="Encuesta de satisfacción Personas que viven con diabetes, familiares y público en general (Presencial)" percentageState={percentageState}>
             {stage === 1 && <div className="w-full flex flex-col gap-6">
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" valueUser={fullName} />
                 <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="number" text="Edad" name="extraEdad" max={3} />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" valueUser={estadoProcedenciaAsistente} />
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Tipo de diabetes" options={['Diabetes tipo 1', 'Diabetes tipo 2', 'Familiares', 'Interesado en el tema', 'Otro']} name="extraTipoDiabetes" />
                 <CautivaBtnForm text="Continuar" onClick={() => {
                     const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
@@ -74,6 +76,11 @@ function Quest4() {
                         Swal.fire({
                             title: "Faltan por rellenar",
                             text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
+                            icon: "info"
+                        });
+                    }else if(response.validate === 4){
+                        Swal.fire({
+                            title: "Por favor coloque una edad valida, mayores de 18 años",
                             icon: "info"
                         });
                     } else if (response.validate === 1) {
@@ -92,7 +99,7 @@ function Quest4() {
             </div>}
 
             {stage === 2 && <div className="w-full flex flex-col gap-6">
-                <NumberCautivaInput  setDataModule={setDataModule} dataModule={dataModule} type="text" text="Teléfono" name="extraTelefono"/>
+                <NumberCautivaInput  setDataModule={setDataModule} dataModule={dataModule} type="text" text="Teléfono" name="extraTelefono" valueUser={telefonoAsistente}/>
                 <CautivaBtnForm text="Continuar" onClick={() => {
                     const response = validateObjectFields(dataModule, keysToValidate2, keysTraduction2);
                     if (response.validate === 0) {
