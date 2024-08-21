@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import Swal from 'sweetalert2'
-import { validateObjectFields } from "../../utils";
+import { validateObjectFields,getBasicData } from "../../utils";
 import { ContainerQuest } from "../../components/ContainerQuest"
 import { InputCautivaForms } from "../../components/InputCautivaForms"
 import { OptionsCautivaForms } from "../../components/OptionsCautivaForms";
@@ -21,8 +21,8 @@ function Quest4() {
     const [sendingData,setSendingData] = useState(false);
     const [errorApiGet,setErrorApiGet] = useState(false);
 
-    const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraTipoDiabetes"];
-    const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Tipo de diabetes"];
+    const keysToValidate1 = [ "extraEdad", "extraEstadoProcedencia", "extraTipoDiabetes"];
+    const keysTraduction1 = [ "Edad", "Estado de procedencia", "Tipo de diabetes"];
 
     const keysToValidate2 = ["extraTelefono"];
     const keysTraduction2 = ["Teléfono"];
@@ -33,7 +33,7 @@ function Quest4() {
     const keysToValidate4 = ["extraNivelContenidos", "extraDistribucionActividades", "extraTiempoActividades", "extraSeleccionPonentes", "extraParticipacionPonentes", "extraComunicacionPonentes"];
     const keysTraduction4 = ["Nivel de contenidos", "Distribución de actividades", "Tiempo de actividades", "Selección de ponentes", "Participación de ponentes", "Comunicación de ponentes"];
 
-    const keysToValidate5 = ["extraCumplieronObjetivos", "extraConferenciaInteresantes","extraConferenciaInteresantes2", "extraOrganizacionCongreso", "extraCongresoCumplioExpectativas", "extraEscalaObjetivoAcademico", "extraRecomendariaCongreso","extraAcudiria34Congreso"];
+    const keysToValidate5 = ["extraCumplieronObjetivos", "extraConferenciaInteresantes1","extraConferenciaInteresantes2", "extraOrganizacionCongreso", "extraCongresoCumplioExpectativas", "extraEscalaObjetivoAcademico", "extraRecomendariaCongreso","extraAcudiria34Congreso"];
     const keysTraduction5 = ["Cumplimiento de objetivos", "Conferencias interesantes","Conferencias interesantes 2", "Organización del congreso", "Cumplimiento de expectativas", "Escala de objetivo académico", "Recomendación del congreso","Acudurias al congreso"];
  
     const keysToValidate6 = ["extraObservacionesConclusiones"];
@@ -190,8 +190,14 @@ function Quest4() {
 
             {stage === 5 && <div className="w-full flex flex-col gap-6">
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿Consideras que los ponentes y actividades han cumplido los objetivos del programa?" options={['Sí', 'No']} name="extraCumplieronObjetivos" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona una conferencia que te pareció interesante" name="extraConferenciaInteresantes" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona otra conferencia que te pareció interesante" name="extraConferenciaInteresantes2" />
+               
+                               
+                <label className='TextTitleFormComponent'>Menciona al menos dos plenarias, simposios o talleres que te parecieron más interesantes del congreso</label>
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" name="extraConferenciaInteresantes1" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" name="extraConferenciaInteresantes2" />
+
+               
+               
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿Consideras que la organización general del congreso fue satisfactoria?" options={['Sí', 'No']} name="extraOrganizacionCongreso" />
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿El congreso cumplió tus expectativas?" options={['Sí', 'No', 'A medias']} name="extraCongresoCumplioExpectativas" />
                 <OptionsScale
@@ -202,13 +208,13 @@ function Quest4() {
                 />
                 <OptionsScale
                     name="extraRecomendariaCongreso"
-                    label="Recomendarías a un familiar, amigo o colega asistir al Congreso de la Federación Mexicana de Diabetes, A.C."
+                    label="Recomendarías a un familiar, amigo o colega asistir al Congreso de la Federación Mexicana de Diabetes, A.C. ( donde, 1 Definitivamente no y 10 Definitivamente si )"
                     setDataModule={setDataModule}
                     dataModule={dataModule}
                 />
                 <OptionsScale
                  name="extraAcudiria34Congreso"
-                 label="Acudirías al 34° Congreso Nacional de Diabetes ( donde, 1 Definitivamente no y 10 Definitivamente si )"
+                 label="Acudirías al 34° Congreso Nacional de Diabetes  (donde, 1 Definitivamente no y 10 Definitivamente si)"
                  setDataModule={setDataModule}
                  dataModule={dataModule} 
                  />

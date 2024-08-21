@@ -11,7 +11,8 @@ function CorrectQuestSend() {
 
     const handleConstancia = () => {
         // Aquí puedes agregar la lógica para lo que debería hacer el botón de "Constancia"
-        console.log('Constancia button clicked');
+        const emailUser = localStorage.getItem('emailAsistente')
+        location.href=`https://constancias.integrameetings.com/cnd/2024/congreso/sesion.php?correo=${emailUser}`
         // Ejemplo: abrir un enlace o descargar un archivo
     };
 
@@ -41,13 +42,13 @@ function CorrectQuestSend() {
             </CSSTransition>
             <div className="mt-8 flex space-x-4">
                 <button 
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-4 py-2 bg-gray-100 text-black rounded shadow-md hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                     onClick={handleReload}
                 >
                     Cerrar
                 </button>
                 <button 
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                    className="px-4 py-2 bg-gray-100 text-black rounded shadow-md hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                     onClick={handleConstancia}
                 >
                     Constancia

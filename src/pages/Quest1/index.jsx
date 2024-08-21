@@ -24,8 +24,8 @@ function Quest1() {
     const {  fullName,estadoProcedenciaAsistente } = getBasicData()
 
 
-    const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraPerfil"];
-    const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Perfil"];
+    const keysToValidate1 = ["extraEdad", "extraEstadoProcedencia", "extraPerfil"];
+    const keysTraduction1 = [ "Edad", "Estado de procedencia", "Perfil"];
     
     const keysToValidate2 = ["extraEspecialidad"];
     const keysTraduction2 = ["Especialidad"];
@@ -80,12 +80,13 @@ function Quest1() {
     return (
         <ContainerQuest title="Encuesta de satisfacción Profesionales (Virtual)" percentageState={percentageState}>
             {stage === 1 && <div className="w-full flex flex-col gap-6">
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" value={fullName} />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre completo" name="extraNombreCompleto" valueUser={fullName} />
                 <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="number" text="Edad" name="extraEdad" max={3} />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" value={estadoProcedenciaAsistente}/>
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" valueUser={estadoProcedenciaAsistente}/>
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Perfil" options={['Profesional de la salud', 'Enfermera(o)', 'Estudiante']} name="extraPerfil" />
                 <CautivaBtnForm text="Continuar" onClick={() => {
-                    const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+                 
+                   const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
                    
                     if (response.validate === 0) {
                         Swal.fire({
@@ -292,8 +293,8 @@ function Quest1() {
                />
 
                 <label className='TextTitleFormComponent'>Menciona al menos dos plenarias, simposios o talleres que te parecieron más interesantes del congreso</label>
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Plenaria 1" name="extraPlenariasInteresantes1" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Plenaria 2" name="extraPlenariasInteresantes2" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text"  name="extraPlenariasInteresantes1" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text"  name="extraPlenariasInteresantes2" />
 
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} 
@@ -325,7 +326,7 @@ function Quest1() {
 
                 <OptionsScale
                  name="extraAcudiria34Congreso"
-                 label="Acudirías al 34° Congreso Nacional de Diabetes ( donde, 1 Definitivamente no y 10 Definitivamente si )"
+                 label="Acudirías al 34° Congreso Nacional de Diabetes  (donde, 1 Definitivamente no y 10 Definitivamente si)"
                  setDataModule={setDataModule}
                  dataModule={dataModule} 
                  />

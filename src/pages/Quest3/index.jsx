@@ -21,8 +21,8 @@ function Quest3() {
     const [errorApiGet,setErrorApiGet] = useState(false);
     const {  fullName,estadoProcedenciaAsistente,telefonoAsistente } = getBasicData()
 
-    const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraVivesCon"];
-    const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Vives con"];
+    const keysToValidate1 = [ "extraEdad", "extraEstadoProcedencia", "extraVivesCon"];
+    const keysTraduction1 = [ "Edad", "Estado de procedencia", "Vives con"];
 
     const keysToValidate2 = ["extraTelefono"];
     const keysTraduction2 = ["Teléfono"];
@@ -183,8 +183,12 @@ function Quest3() {
 
             {stage === 5 && <div className="w-full flex flex-col gap-6">
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿Consideras que los ponentes y actividades han cumplido los objetivos del programa?" options={['Sí', 'No']} name="extraCumplieronObjetivos" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona una conferencia que te pareció interesante" name="extraPlenariasInteresantes1" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona otra conferencia que te pareció interesante" name="extraPlenariasInteresantes2" />
+                
+                                
+                <label className='TextTitleFormComponent'>Menciona al menos dos plenarias, simposios o talleres que te parecieron más interesantes del congreso</label>
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" name="extraPlenariasInteresantes1" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" name="extraPlenariasInteresantes2" />
+
 
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿Consideras que la organización general del congreso fue satisfactoria?" options={['Sí', 'No']} name="extraOrganizacionCongreso" />
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿El congreso cumplió tus expectativas?" options={['Sí', 'No', 'A medias']} name="extraCongresoCumplioExpectativas" />
@@ -196,13 +200,13 @@ function Quest3() {
                 />
                 <OptionsScale
                     name="extraRecomendariaCongreso"
-                    label="Recomendarías a un familiar, amigo o colega asistir al Congreso Nacional de la Federación Mexicana de Diabetes, A.C."
+                    label="Recomendarías a un familiar, amigo o colega asistir al Congreso Nacional de la Federación Mexicana de Diabetes, A.C. ( donde, 1 Definitivamente no y 10 Definitivamente si )"
                     setDataModule={setDataModule}
                     dataModule={dataModule}
                 />
                   <OptionsScale
                     name="extraAcudiria34Congreso"
-                    label="Acudirías al 34° Congreso Nacional de Diabetes ( donde, 1 Definitivamente no y 10 Definitivamente si )"
+                    label="Acudirías al 34° Congreso Nacional de Diabetes  (donde, 1 Definitivamente no y 10 Definitivamente si)"
                     setDataModule={setDataModule}
                     dataModule={dataModule} 
                     />

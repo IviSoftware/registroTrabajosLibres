@@ -61,6 +61,8 @@ const sendData = async (data,slug)=>{
     const responses = [];
     responses.push(dataFormatted)
 
+
+
     const bodyConstructor = {
         "action": "saveSatisfactionSurveyResponses",
         "email": email,

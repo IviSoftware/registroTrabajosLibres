@@ -1,5 +1,11 @@
-function validateObjectFields(obj, keys, translations) {
+function validateObjectFields(obj, keys, translations,setDataModule) {
+
+   
+
+
     const missingFields = [];
+
+    console.log(obj,'objssss')
 
     // Verificar si el objeto está vacío
     if (Object.keys(obj).length === 0) {

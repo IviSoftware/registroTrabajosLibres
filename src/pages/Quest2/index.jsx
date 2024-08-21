@@ -21,8 +21,8 @@ function Quest2() {
     const [errorApiGet,setErrorApiGet] = useState(false);
     const {  fullName,estadoProcedenciaAsistente } = getBasicData()
 
-    const keysToValidate1 = ["extraNombreCompleto", "extraEdad", "extraEstadoProcedencia", "extraPerfil"];
-    const keysTraduction1 = ["Nombre completo", "Edad", "Estado de procedencia", "Perfil"];
+    const keysToValidate1 = [ "extraEdad", "extraEstadoProcedencia", "extraPerfil"];
+    const keysTraduction1 = [ "Edad", "Estado de procedencia", "Perfil"];
 
     const keysToValidate2 = ["extraEspecialidad"];
     const keysTraduction2 = ["Especialidad"];
@@ -68,7 +68,9 @@ function Quest2() {
                 <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado de procedencia" name="extraEstadoProcedencia" valueUser={estadoProcedenciaAsistente}/>
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Perfil" options={['Profesional de la salud', 'Enfermera(o)', 'Estudiante']} name="extraPerfil" />
                 <CautivaBtnForm text="Continuar" onClick={() => {
-                    const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+                   
+        
+                    const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1,setDataModule);
                     if (response.validate === 0) {
                         Swal.fire({
                             title: "Faltan por rellenar",
@@ -189,8 +191,11 @@ function Quest2() {
             {/* Etapa 5 */}
             {stage === 5 && <div className="w-full flex flex-col gap-6">
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Consideras que los ponentes y actividades cumplieron los objetivos del programa" options={['Sí', 'No']} name="extraCumplieronObjetivos" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona una conferencia que te pareció interesante" name="extraPlenariasInteresantes1" />
-                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Menciona otra conferencia que te pareció interesante" name="extraPlenariasInteresantes2" />
+                
+                <label className='TextTitleFormComponent'>Menciona al menos dos plenarias, simposios o talleres que te parecieron más interesantes del congreso</label>
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text"  name="extraPlenariasInteresantes1" />
+                <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text"  name="extraPlenariasInteresantes2" />
+
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="Consideras que la organización general del congreso ha sido satisfactoria" options={['Sí', 'No']} name="extraOrganizacionCongreso" />
                 <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule} text="¿El congreso cumplió tus expectativas?" options={['Sí', 'No', 'A medias']} name="extraCongresoCumplioExpectativas" />
                 <OptionsScale
@@ -207,7 +212,7 @@ function Quest2() {
                  />
                 <OptionsScale
                  name="extraAcudiria34Congreso"
-                 label="Acudirías al 34° Congreso Nacional de Diabetes ( donde, 1 Definitivamente no y 10 Definitivamente si )"
+                 label="Acudirías al 34° Congreso Nacional de Diabetes  (donde, 1 Definitivamente no y 10 Definitivamente si)"
                  setDataModule={setDataModule}
                  dataModule={dataModule} 
                  />
