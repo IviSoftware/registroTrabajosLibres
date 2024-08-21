@@ -10,9 +10,11 @@ import { GrFormNext } from "react-icons/gr";
 import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaForms";
 import { CorrectQuestSend } from "../CorrectQuestSend";
 import { sendData } from "../../services/userService";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 
 import Confetti from 'react-confetti';
+import CautivaLoader from "../../components/atomos/CautivaLoader";
 
 
 function Quest1() {
@@ -396,7 +398,16 @@ function Quest1() {
            </div>}
 
            {sendingData  && <div className="w-full flex flex-col gap-6">
-             <p>Enviando info...</p>
+            <CSSTransition
+                in={sendingData}
+                timeout={500}
+                classNames="fade"
+                unmountOnExit
+            >
+                <div className="w-full flex flex-col gap-6">
+                    <CautivaLoader />
+                </div>
+            </CSSTransition>
               
           </div>}
 

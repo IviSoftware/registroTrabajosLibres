@@ -12,6 +12,8 @@ import { CorrectQuestSend } from "../CorrectQuestSend";
 import Confetti from 'react-confetti';
 import { sendData } from "../../services/userService";
 import { NumberCautivaInput } from "../../components/atomos/NumberCautivaInput";
+import CautivaLoader from "../../components/atomos/CautivaLoader";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 function Quest4() {
     const [percentageState, setPercentageState] = useState(10);
@@ -277,7 +279,16 @@ function Quest4() {
 
 
             {sendingData  && <div className="w-full flex flex-col gap-6">
-             <p>Enviando info...</p>
+                <CSSTransition
+                in={sendingData}
+                timeout={500}
+                classNames="fade"
+                unmountOnExit
+            >
+                <div className="w-full flex flex-col gap-6">
+                    <CautivaLoader />
+                </div>
+            </CSSTransition>
                 
             </div>}
 
