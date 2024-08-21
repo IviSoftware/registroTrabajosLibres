@@ -69,7 +69,7 @@ const sendData = async (data,slug)=>{
         "asistenteId":asistantId,
         "slug": slug,
         "respuestas":responses,
-        "metadaData":metadataUser
+        "MetaData":metadataUser
     }
 
     console.log(bodyConstructor)
