@@ -8,6 +8,7 @@ import { CautivaBtnForm } from "../../components/atomos/CautivaBtnForm";
 import { validateUser } from "../../services/userService";
 import { json } from "react-router-dom";
 import { CorrectQuestSend } from "../CorrectQuestSend";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 
 function WelcomeQuests({ setQuestState,setQuestType }) {
@@ -19,11 +20,11 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
    
             <div className="flex items-center justify-center" style={{ maxWidth: "550px", margin: "0 auto" }} >
                 <div className="text-center p-6">
-                    <h1 className="text-3xl font-bold mt-12 mb-8" >
+                    <h1 className="text-3xl font-bold mt-12 mb-8 apple-text-animation">
                         ¡Bienvenido(a) a la Encuesta del
                         XXXIII Congreso Nacional de Diabetes!
                     </h1>
-                    <p className="text-lg mb-8">
+                    <p className="text-lg mb-8 apple-subtitle-animation">
                         Estamos encantados de que participes en nuestra encuesta. Tus respuestas son muy valiosas para nosotros.
                     </p>
                     <InputWithOutText text="Introduzca su correo" name="email" type="email" onChange={e => {
