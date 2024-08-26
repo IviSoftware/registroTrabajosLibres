@@ -70,7 +70,9 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                     if(response.data.slugEncuestaContestada){
                                         Swal.fire({
                                             title: "¡Parece que ya has enviado tus respuestas! 😊",
-                                            icon: "info"
+                                            icon: "info",
+                                            html: `Puedes acceder a tu constancia <a href="https://constancias.integrameetings.com/cnd/2024/congreso/sesion.php?correo=${email}" target="_blank">aquí</a>.`,
+                                            confirmButtonText: "Cerrar"
                                         });
                                     }else{
                                         //Validariamos el tipo de encuesta a activarse
