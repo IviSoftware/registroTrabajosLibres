@@ -2,7 +2,7 @@ import './InputCautivaForms.css';
 import { useState, useEffect, useRef } from 'react';
 import { ContainerElementForm } from '../ContainerElementForm';
 
-function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, valueUser }) {
+function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, valueUser,verifyMail }) {
 
     const [limit, setLimit] = useState(valueUser || '');
     const hasInitialized = useRef(false); // Usamos useRef para almacenar un valor mutable que no dispara renders
@@ -27,10 +27,14 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
       }
     }, [valueUser]); // Mantener la dependencia de valueUser
 
+ 
+
     const handleInputChange = (e) => {
         if (valueUser) return; // No permitir cambios si valueUser está presente
 
         let value = e.target.value;
+
+       
 
         if (type === 'number') {
             // Eliminar cualquier caracter que no sea numérico
@@ -61,6 +65,11 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
                 value={limit}
                 disabled={!!valueUser} // Deshabilitar el campo si valueUser está presente
                 onChange={handleInputChange}
+                onBlur={()=>{
+                    if(name==='extraConfirmarCorreo'){
+                        verifyMail(dataModule)
+                    }
+                }}
                 inputMode={type === 'number' ? 'numeric' : 'text'} // Asegurar que el teclado numérico aparezca en móviles
             />
         </ContainerElementForm>

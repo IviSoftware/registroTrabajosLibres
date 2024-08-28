@@ -19,6 +19,7 @@
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 /* Sections
@@ -30,6 +31,7 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
 }
 
 /**
@@ -472,3 +474,29 @@ template {
   opacity: 0; /* Inicialmente invisible hasta que la animación comience */
 }
 
+@keyframes waveAnimation {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.wave-emoji {
+  display: inline-block;
+  animation: waveAnimation 2s ease-in-out infinite;
+  transform-origin: 70% 70%; /* Ajusta el punto de origen de la animación */
+}
+
+@keyframes popAnimation {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.pop-emoji {
+  display: inline-block;
+  animation: popAnimation 1.5s ease-in-out infinite;
+}

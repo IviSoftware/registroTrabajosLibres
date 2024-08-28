@@ -3,43 +3,71 @@ import { useState, useEffect } from 'react';
 import { ContainerElementForm } from '../../ContainerElementForm';
 import InputMask from 'react-input-mask';
 
-function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser }) {
+function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, data, ladaUser, setLadaUser }) {
     const [phoneNumber, setPhoneNumber] = useState(valueUser || '');
+    const [lada, setLada] = useState(ladaUser || '');
 
-    const sendToStageApi = (value) => {
+    const sendToStageApi = () => {
         const updatedData = { ...dataModule };
-        updatedData[name] = value;
+        // Concatenar la lada y el número para enviar a la API
+        updatedData[name] = `${lada}${phoneNumber}`;
         setDataModule(updatedData);
     };
 
     useEffect(() => {
         if (valueUser) {
-            sendToStageApi(valueUser);
+            setPhoneNumber(valueUser);
         }
-    }, [valueUser]);
+
+        // Aquí podrías asignar la lada desde los datos si es necesario
+        const index = data.findIndex(item => item.name === dataModule.extraPais);
+        if (index !== -1) {
+            setLadaUser(data[index].lada); // Ajusta este acceso según tu estructura de datos
+        }
+    }, [valueUser, data, dataModule.extraPais, setLadaUser]);
+
+    const handleLadaChange = (e) => {
+        const value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        setLada(value);
+        setLadaUser(value); // Actualiza el estado de la lada
+    };
 
     const handlePhoneChange = (e) => {
         if (valueUser) return; // No permitir cambios si valueUser está presente
 
-        const value = e.target.value;
-        const cleanValue = value.replace(/\D/g, ''); // Elimina cualquier cosa que no sea un número
-        setPhoneNumber(cleanValue);
-        sendToStageApi(cleanValue);
+        const value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        setPhoneNumber(value);
     };
+
+    // Llamar a sendToStageApi cada vez que lada o phoneNumber cambian
+    useEffect(() => {
+        sendToStageApi();
+    }, [lada, phoneNumber]);
 
     return (
         <ContainerElementForm>
             <label className='TextTitleFormComponent'>{text}</label>
-            <InputMask
-                mask="+999 999 999 9999"  // Máscara con suficiente flexibilidad para lada y número
-                maskChar={null} // No muestra ningún carácter por defecto, solo permite números
-                value={phoneNumber}
-                onChange={handlePhoneChange}
-                placeholder="+Lada Número" // Indicador de que después del + va la lada
-                disabled={!!valueUser} // Deshabilitar el input si valueUser está presente
-            >
-                {(inputProps) => <input {...inputProps} name={name} type="text" />}
-            </InputMask>
+            <div className="input-container flex gap-2">
+                <input
+                    className="lada-input"
+                    type="text"
+                    value={lada}
+                    onChange={handleLadaChange}
+                    placeholder="Lada"
+                    style={{width:"50px"}}
+                    disabled={true} // Deshabilitar el input si valueUser está presente
+                />
+                <InputMask
+                    mask="999 999 9999" // Máscara para el número de teléfono sin lada
+                    maskChar={null} // No muestra ningún carácter por defecto, solo permite números
+                    value={phoneNumber}
+                    onChange={handlePhoneChange}
+                    placeholder="Número de teléfono"
+                    disabled={!!valueUser} // Deshabilitar el input si valueUser está presente
+                >
+                    {(inputProps) => <input {...inputProps} name={name} type="text" />}
+                </InputMask>
+            </div>
         </ContainerElementForm>
     );
 }

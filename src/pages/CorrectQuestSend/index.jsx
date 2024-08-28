@@ -37,8 +37,12 @@ function CorrectQuestSend() {
                 appear
             >
                 <p className="mt-6 text-center text-content">
-                    <b>¡Perfecto! Hemos recibido tus respuestas, gracias por tomarte el tiempo de contestar.</b>
+                    <b>¡Fantástico 🎉,  ya eres parte de la Convención Batres 2024! </b>
+                    <br/><br/>
+                    <span style={{fontSize:"17px"}}>Recibirás un correo con toda la información de tu registro.</span><br/>
+                    <span style={{fontSize:"13px"}}>*En caso de no recibir el correo, revisa tu bandeja de spam o correo no deseado.</span>
                 </p>
+
             </CSSTransition>
             <div className="mt-8 flex space-x-4">
                 <button 
@@ -48,10 +52,11 @@ function CorrectQuestSend() {
                     Cerrar
                 </button>
                 <button 
-                    className="px-4 py-2 bg-gray-100 text-black rounded shadow-md hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
-                    onClick={handleConstancia}
+                    className="px-4 py-2  text-black rounded shadow-md  focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+                    style={{background:"#00A3D3",color:"white"}}
+                    onClick={()=>{}}
                 >
-                    Constancia
+                    Reenviar correo de confirmacíón
                 </button>
             </div>
         </div>

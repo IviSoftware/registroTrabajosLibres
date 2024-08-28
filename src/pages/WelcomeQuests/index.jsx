@@ -11,21 +11,18 @@ import { CorrectQuestSend } from "../CorrectQuestSend";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 
-function WelcomeQuests({ setQuestState,setQuestType }) {
+function WelcomeQuests({ setQuestState, setQuestType }) {
     const [email, setEmail] = useState('');
 
     return (
         <div>
             <Navbar />
-   
+
             <div className="flex items-center justify-center" style={{ maxWidth: "550px", margin: "0 auto" }} >
                 <div className="text-center p-6">
-                    <h1 className="text-3xl font-bold mt-12 mb-8 apple-text-animation">
-                        ¡Bienvenido(a) a la Encuesta del
-                        XXXIII Congreso Nacional de Diabetes!
-                    </h1>
-                    <p className="text-lg mb-8 apple-subtitle-animation">
-                        Estamos encantados de que participes en nuestra encuesta. Tus respuestas son muy valiosas para nosotros.
+
+                    <p className="text-lg mb-8 mt-4 apple-subtitle-animation">
+                        <b>Ingrese su correo electronico para continuar</b>
                     </p>
                     <InputWithOutText text="Introduzca su correo" name="email" type="email" onChange={e => {
                         setEmail(e.target.value);
@@ -37,9 +34,9 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                         } else {
                             console.log(email)
 
-                             // Expresión regular para validar el formato del email
+                            // Expresión regular para validar el formato del email
                             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                        
+
                             if (!emailRegex.test(email)) {
                                 Swal.fire({
                                     icon: 'error',
@@ -48,75 +45,64 @@ function WelcomeQuests({ setQuestState,setQuestType }) {
                                 });
                             } else {
 
-                                localStorage.setItem('emailQuests', email)        
-                           
-                                const response = await validateUser(email);
-                                console.log(response,'response');
-                                if(response.message === 'No se encontraron datos para el correo proporcionado.'){
-                                
-                                    Swal.fire({
-                                        title:"Parece que aún no estás registrado. Para poder hacer la encuesta, primero necesitas registrarte. ",
-                                        text:"Si no es el caso, estamos en soporte para asistirte.",
-                                        icon:"info"
-                                    })
-                                
-                                }else if(response.message === 'Datos del usuario obtenidos exitosamente.'){
-                                    //guardamos el meta data
-                                    console.log('response.data',response.data)
-                                    localStorage.setItem('metadataUser',JSON.stringify(response.data.metadaData));
+                                localStorage.setItem('emailQuests', email)
 
-                                    //Validariamos si ya contesto la encuesta
-
-                                    if(response.data.slugEncuestaContestada){
-                                        Swal.fire({
-                                            title: "¡Parece que ya has enviado tus respuestas! 😊",
-                                            icon: "info",
-                                            html: `Puedes acceder a tu constancia <a href="https://constancias.integrameetings.com/cnd/2024/congreso/sesion.php?correo=${email}" target="_blank">aquí</a>.`,
-                                            confirmButtonText: "Cerrar"
-                                        });
-                                    }else{
-                                        //Validariamos el tipo de encuesta a activarse
-                                        localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
-                                        localStorage.setItem('emailAsistente',response.data.correo)
-                                        localStorage.setItem('emailQuests', email)
-                                        localStorage.setItem('nombreAsistente', `${response.data.nombre} ${response.data.nombre}`)
-                                        localStorage.setItem('telefonoAsistente', response.data.metadaData.telefono);
-                                        localStorage.setItem('estadoProcedenciaAsistente', response.data.metadaData.estado);
+                                /*  const response = await validateUser(email);
+ 
+                                 console.log(response,'response');
+                                 if(response.message === 'No se encontraron datos para el correo proporcionado.'){
+                                 
+                                     Swal.fire({
+                                         title:"Parece que aún no estás registrado. Para poder hacer la encuesta, primero necesitas registrarte. ",
+                                         text:"Si no es el caso, estamos en soporte para asistirte.",
+                                         icon:"info"
+                                     })
+                                 
+                                 }else if(response.message === 'Datos del usuario obtenidos exitosamente.'){
+                                     //guardamos el meta data
+                                     console.log('response.data',response.data)
+                                     localStorage.setItem('metadataUser',JSON.stringify(response.data.metadaData));
+ 
+                                     //Validariamos si ya contesto la encuesta
+ 
+                                     if(response.data.slugEncuestaContestada){
+                                         Swal.fire({
+                                             title: "¡Parece que ya has enviado tus respuestas! 😊",
+                                             icon: "info",
+                                             html: `Puedes acceder a tu constancia <a href="https://constancias.integrameetings.com/cnd/2024/congreso/sesion.php?correo=${email}" target="_blank">aquí</a>.`,
+                                             confirmButtonText: "Cerrar"
+                                         });
+                                     }else{
+ 
+                                         localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
+                                         localStorage.setItem('emailAsistente',response.data.correo)
+                                         localStorage.setItem('emailQuests', email)
+                                         localStorage.setItem('nombreAsistente', `${response.data.nombre} ${response.data.nombre}`)
+                                         localStorage.setItem('telefonoAsistente', response.data.metadaData.telefono);
+                                         localStorage.setItem('estadoProcedenciaAsistente', response.data.metadaData.estado);
+                                         
+                                         setQuestType('questOne');
+                                         setQuestState("questStarting")
                                         
-                                        switch (response.data.slugEncuesta) {
-                                            case "sat_con_per_pro_vir":
-                                                setQuestType('questOne');
-                                                break;
+                                     }
+                                 }else{
+                                     Swal.fire({
+                                         title:"Parece que ocurrio un error",
+                                         text:`mande captura a soporte para ayudarle, código de error: ${response.message}`,
+                                         icon:"error"
+                                     })
+                                 } */
 
-                                            case "sat_con_per_pro_pre":
-                                                setQuestType('questTwo');
-                                                break;
 
-                                            case "sat_con_per_gen_vir":
-                                                setQuestType('questThree');
-                                                break;
+                                setQuestType('questOne');
+                                setQuestState("questStarting")
 
-                                            case "sat_con_per_gen_pre":
-                                                setQuestType('questFour');
-                                                break;
-                                        }
-                                        
-                                        setQuestState("questStarting")
-                                       
-                                    }
-                                }else{
-                                    Swal.fire({
-                                        title:"Parece que ocurrio un error",
-                                        text:`mande captura a soporte para ayudarle, código de error: ${response.message}`,
-                                        icon:"error"
-                                    })
-                                }
                             }
                         }
                     }}
-                    text="Comenzar"
+                        text="Continuar"
                     >
-                         <RiSurveyFill className="btnIcon" />
+                        <RiSurveyFill className="btnIcon" />
                     </CautivaBtnForm>
                 </div>
             </div>

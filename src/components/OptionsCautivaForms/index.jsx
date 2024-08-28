@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ContainerElementForm } from '../ContainerElementForm';
 import { OptionCautivaCheck } from '../atomos/OptionCautivaCheck';
 
-function OptionsCautivaForms({ text, options, setDataModule, dataModule, name }) {
+function OptionsCautivaForms({ text, options, setDataModule, dataModule, name, listType }) {
     const [selectedOption, setSelectedOption] = useState('');
 
     const handleOptionChange = (e) => {
@@ -19,6 +19,7 @@ function OptionsCautivaForms({ text, options, setDataModule, dataModule, name })
         <ContainerElementForm>
             <label className="TextTitleFormComponent">{text}</label>
 
+            <div className={`flex flex-col gap-4`} style={listType ? {maxHeight:"300px",overflow:"scroll"} : null}>
             {options.map((opt, index) => (
                 <OptionCautivaCheck 
                     key={index} // Asegúrate de agregar una clave única para cada elemento en el map
@@ -30,6 +31,7 @@ function OptionsCautivaForms({ text, options, setDataModule, dataModule, name })
                     onChange={handleOptionChange}
                 />
             ))}
+            </div>
         </ContainerElementForm>
     );
 }
