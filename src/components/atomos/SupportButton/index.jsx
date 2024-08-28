@@ -16,8 +16,8 @@ function SupportButton() {
     return (
         <button 
             onClick={handleSupportClick}
-            className="fixed bottom-4 right-4 bg-white  text-black font-bold py-2 px-4 rounded-full shadow-lg hover:bg-opacity-50 transition-all duration-300 ease-in-out"
-            style={{ zIndex: 10000 }}  // Z-index alto para que se muestre encima de todo
+            className="fixed bottom-4 right-4  text-black font-bold py-2 px-4 rounded-full shadow-lg hover:bg-opacity-50 transition-all duration-300 ease-in-out"
+            style={{ zIndex: 1000,background:"#05EA78" }}  // Z-index alto para que se muestre encima de todo
         >
             Soporte
         </button>
