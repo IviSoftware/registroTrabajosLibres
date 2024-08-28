@@ -158,30 +158,37 @@ function Quest1() {
 
           const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
 
-          if (response.validate === 0) {
+          if(mailError){
             Swal.fire({
-              title: "Faltan por rellenar",
-              text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
+              title: "Los correos no coinciden",
               icon: "info"
             });
-          } else if (response.validate === 4) {
-            Swal.fire({
-              title: "Por favor coloque una edad valida",
-              icon: "info"
-            });
-          } else if (response.validate == 1) {
-            setStage(2)
-            setPercentageState(30)
-            console.log(dataModule)
-            // Hacer scroll hasta arriba de la pantalla
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else {
-            Swal.fire({
-              title: "Por favor rellene todos los campos",
-              icon: "info"
-            });
+          }else{
+            if (response.validate === 0) {
+              Swal.fire({
+                title: "Faltan por rellenar",
+                text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
+                icon: "info"
+              });
+            } else if (response.validate === 4) {
+              Swal.fire({
+                title: "Por favor coloque una edad valida",
+                icon: "info"
+              });
+            } else if (response.validate == 1) {
+              setStage(2)
+              setPercentageState(80)
+              console.log(dataModule)
+              // Hacer scroll hasta arriba de la pantalla
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              Swal.fire({
+                title: "Por favor rellene todos los campos",
+                icon: "info"
+              });
+            }
+  
           }
-
         }}>
           <GrFormNext className="btnIcon" />
         </CautivaBtnForm>
@@ -220,7 +227,7 @@ function Quest1() {
             });
           } else if (response.validate == 1) {
             setStage(3)
-            setPercentageState(0)
+            setPercentageState(100)
             console.log(dataModule)
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
