@@ -4,7 +4,7 @@ import { NavbarQuest } from "../NavBarQuest"
 
 
 function ContainerQuest({children,percentageState,title}) {
-  console.log('percentageState',percentageState)
+
     
     return (
         <div>

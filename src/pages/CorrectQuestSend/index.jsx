@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './CorrectQuestSend.css';
+import { resendEmail } from '../../services/userService';
 
 function CorrectQuestSend() {
     const [inProp, setInProp] = useState(true);
@@ -54,7 +55,10 @@ function CorrectQuestSend() {
                 <button 
                     className="px-4 py-2  text-black rounded shadow-md  focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                     style={{background:"#00A3D3",color:"white"}}
-                    onClick={()=>{}}
+                    onClick={()=>{
+                        const email = localStorage.getItem('emailQuests')
+                        resendEmail(email)
+                    }}
                 >
                     Reenviar correo de confirmacíón
                 </button>

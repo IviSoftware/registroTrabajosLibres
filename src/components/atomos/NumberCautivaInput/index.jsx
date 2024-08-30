@@ -9,8 +9,9 @@ function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, 
 
     const sendToStageApi = () => {
         const updatedData = { ...dataModule };
-        // Concatenar la lada y el número para enviar a la API
-        updatedData[name] = `${lada}${phoneNumber}`;
+        // Enviar lada y teléfono por separado
+        updatedData[name] = phoneNumber;
+        updatedData['lada'] = lada;
         setDataModule(updatedData);
     };
 
@@ -19,12 +20,12 @@ function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, 
             setPhoneNumber(valueUser);
         }
 
-        // Aquí podrías asignar la lada desde los datos si es necesario
-        const index = data.findIndex(item => item.name === dataModule.extraPais);
+        // Asignar la lada desde los datos si es necesario
+        const index = data.findIndex(item => item.name === dataModule.pais);
         if (index !== -1) {
-            setLadaUser(data[index].lada); // Ajusta este acceso según tu estructura de datos
+            setLadaUser(data[index].lada); // Ajusta según tu estructura de datos
         }
-    }, [valueUser, data, dataModule.extraPais, setLadaUser]);
+    }, [valueUser, data, dataModule.pais, setLadaUser]);
 
     const handleLadaChange = (e) => {
         const value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
@@ -54,8 +55,8 @@ function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, 
                     value={lada}
                     onChange={handleLadaChange}
                     placeholder="Lada"
-                    style={{width:"50px"}}
-                    disabled={true} // Deshabilitar el input si valueUser está presente
+                    style={{ width: "50px" }}
+                    disabled={!!valueUser} // Deshabilitar el input si valueUser está presente
                 />
                 <InputMask
                     mask="999 999 9999" // Máscara para el número de teléfono sin lada

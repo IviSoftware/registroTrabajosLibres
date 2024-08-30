@@ -21,7 +21,7 @@ const CautivaSelect = ({ title, name, data, type, setDataModule, dataModule, set
 
         // Manejar campos adicionales específicamente para 'country'
         if (type === 'country' && ladaValue) {
-            updatedData.extraPais = nameValue;
+            updatedData.pais = nameValue;
             setLadaUser(ladaValue); // Actualizar lada solo si es de tipo 'country'
         }
 
@@ -56,7 +56,7 @@ const CautivaSelect = ({ title, name, data, type, setDataModule, dataModule, set
                     <option 
                         key={item.name || item} 
                         value={item.name || item} 
-                        selected={(type === 'country' && item.name === dataModule.extraPais) || item === dataModule[name]}>
+                        selected={(type === 'country' && item.name === dataModule.pais) || item === dataModule[name]}>
                         {item.name || item}
                     </option>
                 ))}

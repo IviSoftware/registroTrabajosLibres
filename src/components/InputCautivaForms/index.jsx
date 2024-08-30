@@ -66,7 +66,7 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
                 disabled={!!valueUser} // Deshabilitar el campo si valueUser está presente
                 onChange={handleInputChange}
                 onBlur={()=>{
-                    if(name==='extraConfirmarCorreo'){
+                    if(name==='adicionalConfirmarCorreo'){
                         verifyMail(dataModule)
                     }
                 }}

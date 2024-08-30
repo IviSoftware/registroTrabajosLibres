@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { formatSurveyResponse1,formatSurveyResponse2,formatSurveyResponse3,formatSurveyResponse4 } from "../utils";
+
 const API = "https://api.encuestas.integrameetings.com/cnd2024/"
 
 const validateUser = async (userEmail) => {
@@ -26,66 +26,151 @@ const validateUser = async (userEmail) => {
 };
 
 
-const sendData = async (data,slug)=>{
-    
-    console.log("sendData");
-
-    const metadataUser = JSON.parse(localStorage.getItem('metadataUser'))
-
-    let dataFormatted = '';
-
-    switch (slug) {
-        case "sat_con_per_pro_vir":
-            dataFormatted = formatSurveyResponse1(data)
-        break;
-
-        case "sat_con_per_pro_pre":
-            dataFormatted = formatSurveyResponse2(data)
-        break;
-
-        case "sat_con_per_gen_vir":
-            dataFormatted = formatSurveyResponse3(data)
-        break;
-
-        case "sat_con_per_gen_pre":
-            dataFormatted = formatSurveyResponse4(data)
-        break;
-    
-        default:
-            break;
-    }
-   
-    const email = localStorage.getItem('emailAsistente');
-    const asistantId = localStorage.getItem('idAsistenteDiabetes');
-
-    const responses = [];
-    responses.push(dataFormatted)
 
 
 
-    const bodyConstructor = {
-        "action": "saveSatisfactionSurveyResponses",
-        "email": email,
-        "asistenteId":asistantId,
-        "slug": slug,
-        "respuestas":responses,
-        "fkAsistenteMetaData":metadataUser
-    }
-
-    console.log(bodyConstructor)
-
-    const apiRes = await fetch(API,{
-        method:"POST",
-        headers:{
-            'Content-Type':'application/json',
+// emailService.js
+const verifyEmail = async (correo) => {
+    try {
+      // Usar URLSearchParams para crear los datos en formato 'x-www-form-urlencoded'
+      const formData = new URLSearchParams();
+      formData.append('email', correo);
+      formData.append('action', 'verifyEmail');
+      formData.append('evento', '14');
+  
+      const response = await fetch('https://api.integrameetings.com/v1/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(bodyConstructor)
-    }); 
+        body: formData.toString(), // Convertir a string para la solicitud
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error en la respuesta del servidor:", error);
+      throw error;
+    }
+  };
+  
 
-    const json = await apiRes.json();
-    console.log('jsooon',json)
-    return json
-}
+  // registroService.js
+const verificarCupon = async (cupon) => {
+    const headers = new Headers({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+  
+    const body = new URLSearchParams({
+      evento: '14',
+      action: 'verificarCupon',
+      cupon,
+    });
+  
+    const requestOptions = {
+      method: 'POST',
+      headers,
+      body,
+      redirect: 'follow',
+    };
+  
+    try {
+      const response = await fetch('https://api.integrameetings.com/v1/cupones/', requestOptions);
+      const result = await response.text();
+      return JSON.parse(result);
+    } catch (error) {
+      console.error('Error al verificar el cupón:', error);
+      throw error;
+    }
+  };
+  
+  const sendRegister = async (jsonReactState) => {
+    const formData = new FormData();
+
+    // Iterar sobre las entradas del jsonReactState y excluir el campo 'correo'
+    Object.entries(jsonReactState).forEach(([key, value]) => {
+
+        formData.append(key, value);
+
+    });
+
+   // Imprimir el contenido del formData
+   console.log('Contenido de formData:');
+   for (let [key, value] of formData.entries()) {
+     console.log(`${key}: ${value}`);
+   }
+  
+  try {
+      const response = await fetch('https://api.integrameetings.com/v1/registro/?action=save&evento=14', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log(response,'response')
+  
+      if (!response.ok) {
+        throw new Error(`Error al enviar el registro: ${response.statusText}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error('Error al enviar el registro:', error);
+      throw error;
+    } 
+  };
 
 
-export {validateUser,sendData}
+
+  const resendEmail = (email) => {
+    let sendingModal = Swal.fire({
+        title: 'Enviando...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); // Muestra un ícono de carga mientras se envía el correo
+        }
+      });
+    fetch(`https://script.google.com/macros/s/AKfycbyMrUCG0cHGAzAGaIYnGPFy8u_sQ8LZNDcHQd5Ao6W2iiCF-uZR6Ml0FGcwW7RJZ_88kw/exec?email=${email}&evento=14`, {
+        method: 'GET' // O 'POST', dependiendo de cómo esté configurado tu endpoint
+        // Si necesitas enviar datos, como un ID de usuario o un token, puedes incluirlos aquí
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Respuesta de red no fue ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        Swal.close();
+        console.log('Correo reenviado con éxito:', data);
+        Swal.fire({
+          title: 'Correo envíado con exito',
+          icon: 'success',
+        });
+
+        // Aquí puedes hacer algo más después de que se haya reenviado el correo
+      })
+      .catch(error => {
+        Swal.fire({
+          title: 'Correo envíado con exito',
+          icon: 'success',
+        });
+        Swal.fire({
+          title: 'Correo envíado con exito',
+          icon: 'success',
+          confirmButtonText: '¡Excelente!'
+        }).then(result => {
+          location.reload();
+        })
+        console.error('Hubo un problema con la solicitud de reenvío de correo:', error);
+      });
+    
+  };
+  
+  
+
+
+export {validateUser,sendRegister,verifyEmail,resendEmail}

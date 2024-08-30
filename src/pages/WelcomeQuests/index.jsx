@@ -9,6 +9,7 @@ import { validateUser } from "../../services/userService";
 import { json } from "react-router-dom";
 import { CorrectQuestSend } from "../CorrectQuestSend";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { verifyEmail,resendEmail } from "../../services/userService";
 
 
 function WelcomeQuests({ setQuestState, setQuestType }) {
@@ -47,55 +48,43 @@ function WelcomeQuests({ setQuestState, setQuestType }) {
 
                                 localStorage.setItem('emailQuests', email)
 
-                                /*  const response = await validateUser(email);
- 
-                                 console.log(response,'response');
-                                 if(response.message === 'No se encontraron datos para el correo proporcionado.'){
+                                 const response = await verifyEmail(email);
+
+                                if(response.exists){
                                  
-                                     Swal.fire({
-                                         title:"Parece que aún no estás registrado. Para poder hacer la encuesta, primero necesitas registrarte. ",
-                                         text:"Si no es el caso, estamos en soporte para asistirte.",
-                                         icon:"info"
-                                     })
+                                    Swal.fire({
+                                        title: "Usted ya está registrado",
+                                        text: "Si no es el caso, estamos en soporte para asistirte.",
+                                        icon: "info",
+                                        showCancelButton: true,
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Entiendo',
+                                        cancelButtonText: 'Reenviar correo',
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                      }).then((result) => {
+                                        if (result.isConfirmed) {
+                                          // Acción para el botón "Entiendo" - Recargar la web
+                                          window.location.reload();
+                                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                          // Acción para el botón "Reenviar correo"
+                                          resendEmail(email);
+                                        }
+                                      });
                                  
-                                 }else if(response.message === 'Datos del usuario obtenidos exitosamente.'){
-                                     //guardamos el meta data
-                                     console.log('response.data',response.data)
-                                     localStorage.setItem('metadataUser',JSON.stringify(response.data.metadaData));
+                                 }else if(!response.exists){
+                                     
+
+                                     setQuestType('questOne');
+                                     setQuestState("questStarting")
  
-                                     //Validariamos si ya contesto la encuesta
- 
-                                     if(response.data.slugEncuestaContestada){
-                                         Swal.fire({
-                                             title: "¡Parece que ya has enviado tus respuestas! 😊",
-                                             icon: "info",
-                                             html: `Puedes acceder a tu constancia <a href="https://constancias.integrameetings.com/cnd/2024/congreso/sesion.php?correo=${email}" target="_blank">aquí</a>.`,
-                                             confirmButtonText: "Cerrar"
-                                         });
-                                     }else{
- 
-                                         localStorage.setItem('idAsistenteDiabetes',response.data.idAsistente)
-                                         localStorage.setItem('emailAsistente',response.data.correo)
-                                         localStorage.setItem('emailQuests', email)
-                                         localStorage.setItem('nombreAsistente', `${response.data.nombre} ${response.data.nombre}`)
-                                         localStorage.setItem('telefonoAsistente', response.data.metadaData.telefono);
-                                         localStorage.setItem('estadoProcedenciaAsistente', response.data.metadaData.estado);
+                                     
                                          
-                                         setQuestType('questOne');
-                                         setQuestState("questStarting")
-                                        
-                                     }
-                                 }else{
-                                     Swal.fire({
-                                         title:"Parece que ocurrio un error",
-                                         text:`mande captura a soporte para ayudarle, código de error: ${response.message}`,
-                                         icon:"error"
-                                     })
-                                 } */
+                                      
+                                 }
 
 
-                                setQuestType('questOne');
-                                setQuestState("questStarting")
+                              
 
                             }
                         }

@@ -3,21 +3,17 @@ import Swal from 'sweetalert2'
 import { validateObjectFields, getBasicData } from "../../utils";
 import { ContainerQuest } from "../../components/ContainerQuest"
 import { InputCautivaForms } from "../../components/InputCautivaForms"
-import { OptionsCautivaForms } from "../../components/OptionsCautivaForms";
 import { CautivaBtnForm } from "../../components/atomos/CautivaBtnForm";
-import { OptionsScale } from "../../components/atomos/OptionsScale";
 import { GrFormNext } from "react-icons/gr";
-import { TextAreaCautivaForms } from "../../components/atomos/TextAreaCautivaForms";
 import { CorrectQuestSend } from "../CorrectQuestSend";
-import { sendData } from "../../services/userService";
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
 import { getCountries } from "../../services/countriesService";
 import { CautivaSelect } from "../../components/atomos/CautivaSelect";
-
 import Confetti from 'react-confetti';
 import CautivaLoader from "../../components/atomos/CautivaLoader";
 import { NumberCautivaInput } from "../../components/atomos/NumberCautivaInput";
 import { getSucursales, getDepartamentos } from "../../services/storesService";
+import { sendRegister } from "../../services/userService";
 
 
 function Quest1() {
@@ -29,10 +25,10 @@ function Quest1() {
   /*     const {  fullName,estadoProcedenciaAsistente } = getBasicData() */
 
 
-  const keysToValidate1 = ["extraNombre", "extraApellido", "extraConfirmarCorreo", "extraPais", "extraEstado"];
+  const keysToValidate1 = ["nombre", "apellido", "adicionalConfirmarCorreo", "pais", "estado"];
   const keysTraduction1 = ["Nombre(s)", "Apellidos", "País", "Estado"];
 
-  const keysToValidate2 = ["extraTelefono", "extraCargo", "extraRegion", "extraSucursal"];
+  const keysToValidate2 = ["telefono", "adicionalCargo", "adicionalRegion", "adicionalSucursal"];
   const keysTraduction2 = ["Telefono", "Cargo", "Región", "Sucursal"];
 
 
@@ -71,7 +67,6 @@ function Quest1() {
       }
     })
 
-    console.log('json', json)
     setCountries(data)
   }
 
@@ -90,28 +85,20 @@ function Quest1() {
   }, [])
 
   const sendDataToAPI = async () => {
-    setSendingData(true)
-    try {
-      const apiResponse = await sendData(dataModule, "sat_con_per_pro_vir");
-      if (apiResponse.title === "error") {
-        setErrorApiGet(true)
-      }
-      console.log(apiResponse)
-      setSendingData(false);
-    } catch (error) {
-      setErrorApiGet(true)
-      console.error("Ocurrio un error en la petición", error)
-      setSendingData(false);
-      setTypeError(error)
-    }
-
+   setSendingData(true)
+   const response = await sendRegister(dataModule);
+   setSendingData(false)
+   if(!response.status == '200'){
+    setErrorApiGet(true)
+   }
+  
   }
 
   const [mailError, setMailError] = useState(false)
 
   const verifyMail = (data) => {
 
-    if (email !== data.extraConfirmarCorreo) {
+    if (email !== data.adicionalConfirmarCorreo) {
       setMailError(true)
     } else {
       setMailError(false)
@@ -139,17 +126,17 @@ function Quest1() {
 
 
       {stage === 1 && <div className="w-full flex flex-col gap-6">
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre(s)" name="extraNombre" />
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Apellidos" name="extraApellido" />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre(s)" name="nombre" />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Apellidos" name="apellido" />
 
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Correo Electronico" name="extraCorreo" valueUser={email} />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Correo Electronico" name="correo" valueUser={email} />
 
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Confirmar correo Electronico" name="extraConfirmarCorreo" verifyMail={verifyMail} />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Confirmar correo Electronico" name="adicionalConfirmarCorreo" verifyMail={verifyMail} />
         {mailError && <p className="text-red-800"><b>Los correos no son iguales</b></p>}
 
-        <CautivaSelect title="País*" name="extraPais" data={countries} type="country" setDataModule={setDataModule} dataModule={dataModule} setLadaUser={setLadaUser} />
+        <CautivaSelect title="País*" name="pais" data={countries} type="country" setDataModule={setDataModule} dataModule={dataModule} setLadaUser={setLadaUser} />
 
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado" name="extraEstado" />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Estado" name="estado" />
 
 
         <CautivaBtnForm text="Siguiente" onClick={() => {
@@ -197,13 +184,13 @@ function Quest1() {
 
       {stage === 2 && <div className="w-full flex flex-col gap-6">
 
-        <NumberCautivaInput text="Telefono" name="extraTelefono" setDataModule={setDataModule} dataModule={dataModule} data={countries} ladaUser={ladaUser} setLadaUser={setLadaUser} />
+        <NumberCautivaInput text="Telefono" name="telefono" setDataModule={setDataModule} dataModule={dataModule} data={countries} ladaUser={ladaUser} setLadaUser={setLadaUser} />
 
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Cargo*" name="extraCargo" />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Cargo*" name="adicionalCargo" />
 
         <CautivaSelect
           title="¿Region a la que pertenece?*"
-          name="extraRegion"
+          name="adicionalRegion"
           data={departamentos}
           setDataModule={setDataModule}
           dataModule={dataModule}
@@ -211,7 +198,7 @@ function Quest1() {
 
         <CautivaSelect
           title="Sucursal*"
-          name="extraSucursal"
+          name="adicionalSucursal"
           data={sucursales}
           setDataModule={setDataModule}
           dataModule={dataModule}
@@ -228,7 +215,7 @@ function Quest1() {
           } else if (response.validate == 1) {
             setStage(3)
             setPercentageState(100)
-            console.log(dataModule)
+            sendDataToAPI()
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
             Swal.fire({
@@ -246,19 +233,11 @@ function Quest1() {
 
 
 
-      {/*  {sendingData  && <div className="w-full flex flex-col gap-6">
-            <CSSTransition
-                in={sendingData}
-                timeout={500}
-                classNames="fade"
-                unmountOnExit
-            >
+       {sendingData  && <div className="w-full flex flex-col gap-6">
                 <div className="w-full flex flex-col gap-6">
                     <CautivaLoader />
                 </div>
-            </CSSTransition>
-              
-          </div>} */}
+          </div>} 
 
       {
         errorApiGet && <>
