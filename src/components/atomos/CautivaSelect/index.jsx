@@ -5,7 +5,7 @@ const CautivaSelect = ({ title, name, data, type, setDataModule, dataModule, set
         if (data.length > 0) {
             // Manejo específico para tipo 'country'
             if (type === 'country') {
-                const defaultCountry = data.find(item => item.name === 'Mexico') || data[0];
+                const defaultCountry = data.find(item => item.name === 'Guatemala') || data[0];
                 updateDataModule(defaultCountry.name, defaultCountry.lada);
             } else {
                 // Asignar por defecto el primer elemento para otros tipos si se requiere
