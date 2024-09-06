@@ -17,6 +17,7 @@ import { sendRegister } from "../../services/userService";
 import { Footer } from "../../components/Footer";
 import { OptionsCautivaForms } from '../../components/OptionsCautivaForms'
 import { TextCautiva } from "../../components/atomos/TextCautiva";
+import { UploadFile } from "../../components/atomos/UploadFile";
 
 
 function Quest1() {
@@ -34,14 +35,14 @@ function Quest1() {
   const keysToValidate2 = ["modulo"];
   const keysTraduction2 = ["Categoria"];
 
-  const keysToValidate3 = ["nombre","apellidos","hospital"];
-  const keysTraduction3 = ["nombre","apellidos","institución"];
+  const keysToValidate3 = ["nombre", "apellidos", "hospital"];
+  const keysTraduction3 = ["nombre", "apellidos", "institución"];
 
-  const keysToValidate4 = ["titulo"];
-  const keysTraduction4 = ["titulo del trabajo libre"];
-
-  const keysToValidate5 = ["modulo"];
-  const keysTraduction5 = ["Categoria"];
+  /*   const keysToValidate4 = ["titulo"];
+    const keysTraduction4 = ["titulo del trabajo libre"];
+  
+    const keysToValidate5 = ["resumenTrabajo"];
+    const keysTraduction5 = ["resumen Trabajo"]; */
 
 
   const [errorApiGet, setErrorApiGet] = useState(false)
@@ -127,7 +128,7 @@ function Quest1() {
       </>}
 
 
-      {stage === 5 && <>
+      {(stage === 5 || stage === 6 || stage === 7) && <>
         <h1 className="mb-0">¡Ya casi estamos <span className="pop-emoji">👌</span>!</h1>
         <p className="mt-0 mb-4">Llene el formulario que se muestra a continuación para subír su trabajo.</p>
       </>}
@@ -302,7 +303,7 @@ function Quest1() {
             });
           } else if (response.validate == 1) {
             setStage(3)
-            setPercentageState(100)
+            setPercentageState(30)
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
@@ -323,11 +324,11 @@ function Quest1() {
         <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Nombre(s)" name="nombre" />
         <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Apellidos" name="apellidos" />
         <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Institución y servicio a la que pertenece*" name="hospital" />
-        
-        
+
+
         <CautivaSelect title="País*" name="pais" data={countries} type="country" setDataModule={setDataModule} dataModule={dataModule} setLadaUser={setLadaUser} />
 
-    
+
         <NumberCautivaInput text="Telefono" name="telefono" setDataModule={setDataModule} dataModule={dataModule} data={countries} ladaUser={ladaUser} setLadaUser={setLadaUser} />
 
 
@@ -341,7 +342,7 @@ function Quest1() {
             });
           } else if (response.validate == 1) {
             setStage(4)
-            setPercentageState(100)
+            setPercentageState(50)
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
@@ -359,76 +360,39 @@ function Quest1() {
 
       {stage === 4 && <div className="w-full flex flex-col gap-6">
 
-     
-     <p>Información Adicional <br/><br/>
-     <hr className="mb-4"></hr>
-      Los resúmenes deberán ser escritos en español y contener los resultados de trabajos originales. Deberá ser enviado en formato de archivo Word con Tipo de letra Times New Roman tamaño 12 pt. Le recordamos que la plataforma de envío de trabajos SOLO ACEPTA el formato de archivo Word.<br/><br/>
 
-      Es muy importante definir correctamente al PRIMER AUTOR del trabajo durante el proceso de registro en la plataforma. En caso de que el trabajo sea seleccionado para su presentación en el congreso, esta persona (primer autor) será la única que recibirá el apoyo de beca por parte del IMIN.<br/><br/>
+        <p>Información Adicional <br /><br />
+          <hr className="mb-4"></hr>
+          Los resúmenes deberán ser escritos en español y contener los resultados de trabajos originales. Deberá ser enviado en formato de archivo Word con Tipo de letra Times New Roman tamaño 12 pt. Le recordamos que la plataforma de envío de trabajos SOLO ACEPTA el formato de archivo Word.<br /><br />
 
-      La estructura del trabajo deberá ser la siguiente:<br/><br/>
+          Es muy importante definir correctamente al PRIMER AUTOR del trabajo durante el proceso de registro en la plataforma. En caso de que el trabajo sea seleccionado para su presentación en el congreso, esta persona (primer autor) será la única que recibirá el apoyo de beca por parte del IMIN.<br /><br />
 
-      Título breve en MAYÚSCULAS, negritas y sin subrayar. Deberá tener un máximo de 180 palabras. No deberá incluir abreviaturas ni símbolos.<br/><br/>
-      Nombre y apellidos completos del primer autor y los coautores. Primera letra del nombre(s) y apellidos deberán ser en mayúscula y el resto en minúsculas.<br/><br/>
-      Institución y servicio a la que pertenece cada uno de los autores, referenciados con números subíndices consecutivos en el nombre de los autores.<br/><br/>
-      
-      <hr className="mb-4"></hr>
-      <b>Agradecemos su dedicación y compromiso con la investigación en nefrología y esperamos contar con su valiosa contribución en el Congreso Internacional en Nefrología IMIN 2023, en Acapulco.</b> <br /><br />
+          La estructura del trabajo deberá ser la siguiente:<br /><br />
 
-      <span className="text-center block">
-        Atentamente, <br /><br />
+          Título breve en MAYÚSCULAS, negritas y sin subrayar. Deberá tener un máximo de 180 palabras. No deberá incluir abreviaturas ni símbolos.<br /><br />
+          Nombre y apellidos completos del primer autor y los coautores. Primera letra del nombre(s) y apellidos deberán ser en mayúscula y el resto en minúsculas.<br /><br />
+          Institución y servicio a la que pertenece cada uno de los autores, referenciados con números subíndices consecutivos en el nombre de los autores.<br /><br />
 
-        Comité Organizador del Congreso Internacional en Nefrología IMIN 2024.
-      </span>
-      </p>
+          <hr className="mb-4"></hr>
+          <b>Agradecemos su dedicación y compromiso con la investigación en nefrología y esperamos contar con su valiosa contribución en el Congreso Internacional en Nefrología IMIN 2023, en Acapulco.</b> <br /><br />
 
+          <span className="text-center block">
+            Atentamente, <br /><br />
 
-      <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Título del trabajo libre*" name="titulo" />
-      <p className="text-red-400">Título breve en MAYÚSCULAS. <br />
-      Deberá tener un máximo de 180 palabras. <br />
-      No deberá incluir abreviaturas ni símbolos. <br />
-      </p>
-
-
-      <CautivaBtnForm text="Continuar" onClick={() => {
-        const response = validateObjectFields(dataModule, keysToValidate4, keysTraduction4);
-        if (response.validate === 0) {
-          Swal.fire({
-            title: "Faltan por rellenar",
-            text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
-            icon: "info"
-          });
-        } else if (response.validate == 1) {
-          setStage(5)
-          setPercentageState(100)
-
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          Swal.fire({
-            title: "Por favor rellene todos los campos",
-            icon: "info"
-          });
-        }
-
-      }}>
-        <GrFormNext className="btnIcon" />
-      </CautivaBtnForm>
-      </div>}
-
-
-
-      {stage === 5 && <div className="w-full flex flex-col gap-6">
-
-        <h4><b>Información de Trabajo Libre</b></h4>
-
-        <TextCautiva  setDataModule={setDataModule} dataModule={dataModule} type="text" text="Resumen del Trabajo*" name="resumenTrabajo"  />
-        <p className="text-red-400">El resumen deberá ser escrito en español y contener los resultados de trabajos originales.
+            Comité Organizador del Congreso Internacional en Nefrología IMIN 2024.
+          </span>
         </p>
 
-       
+
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Título del trabajo libre*" name="titulo" />
+        <p className="text-red-400">Título breve en MAYÚSCULAS. <br />
+          Deberá tener un máximo de 180 palabras. <br />
+          No deberá incluir abreviaturas ni símbolos. <br />
+        </p>
+
 
         <CautivaBtnForm text="Continuar" onClick={() => {
-          const response = validateObjectFields(dataModule, keysToValidate4, keysTraduction4);
+          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
           if (response.validate === 0) {
             Swal.fire({
               title: "Faltan por rellenar",
@@ -437,6 +401,80 @@ function Quest1() {
             });
           } else if (response.validate == 1) {
             setStage(5)
+            setPercentageState(60)
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            Swal.fire({
+              title: "Por favor rellene todos los campos",
+              icon: "info"
+            });
+          }
+
+        }}>
+          <GrFormNext className="btnIcon" />
+        </CautivaBtnForm>
+      </div>}
+
+
+
+      {stage === 5 && <div className="w-full flex flex-col gap-6">
+
+
+
+        <TextCautiva setDataModule={setDataModule} dataModule={dataModule} type="text" text="Resumen del Trabajo*" name="resumenTrabajo" />
+        <p className="text-red-400">El resumen deberá ser escrito en español y contener los resultados de trabajos originales.
+        </p>
+
+
+
+        <CautivaBtnForm text="Continuar" onClick={() => {
+          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+          if (response.validate === 0) {
+            Swal.fire({
+              title: "Faltan por rellenar",
+              text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
+              icon: "info"
+            });
+          } else if (response.validate == 1) {
+            setStage(6)
+            setPercentageState(70)
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            Swal.fire({
+              title: "Por favor rellene todos los campos",
+              icon: "info"
+            });
+          }
+
+        }}>
+          <GrFormNext className="btnIcon" />
+        </CautivaBtnForm>
+      </div>}
+
+
+
+      {stage === 6 && <div className="w-full flex flex-col gap-6">
+
+        <h4><b>Información de Trabajo Libre</b></h4>
+
+        <TextCautiva setDataModule={setDataModule} dataModule={dataModule} type="text" text="Resumen del Trabajo*" name="resumenTrabajo" />
+        <p className="text-red-400">El resumen deberá ser escrito en español y contener los resultados de trabajos originales.
+        </p>
+
+
+
+        <CautivaBtnForm text="Continuar" onClick={() => {
+          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+          if (response.validate === 0) {
+            Swal.fire({
+              title: "Faltan por rellenar",
+              text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
+              icon: "info"
+            });
+          } else if (response.validate == 1) {
+            setStage(7)
             setPercentageState(100)
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -450,9 +488,44 @@ function Quest1() {
         }}>
           <GrFormNext className="btnIcon" />
         </CautivaBtnForm>
-        </div>}
+      </div>}
 
 
+      {stage === 7 && <div className="w-full flex flex-col gap-6">
+
+        <p>Archivo de trabajo libre</p>
+        <UploadFile />
+
+
+        <p>Archivo de no autor</p>
+        <UploadFile />
+
+
+
+        <CautivaBtnForm text="Continuar" onClick={() => {
+          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+          if (response.validate === 0) {
+            Swal.fire({
+              title: "Faltan por rellenar",
+              text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
+              icon: "info"
+            });
+          } else if (response.validate == 1) {
+            setStage(6)
+            setPercentageState(100)
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            Swal.fire({
+              title: "Por favor rellene todos los campos",
+              icon: "info"
+            });
+          }
+
+        }}>
+          <GrFormNext className="btnIcon" />
+        </CautivaBtnForm>
+      </div>}
 
 
 
