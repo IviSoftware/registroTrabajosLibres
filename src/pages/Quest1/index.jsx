@@ -36,14 +36,14 @@ function Quest1() {
   const keysToValidate2 = ["modulo"];
   const keysTraduction2 = ["Categoria"];
 
-  const keysToValidate3 = ["nombre", "apellidos", "hospital"];
-  const keysTraduction3 = ["nombre", "apellidos", "institución"];
+  const keysToValidate3 = ["nombre", "apellidos", "hospital","telefono"];
+  const keysTraduction3 = ["nombre", "apellidos", "institución","telefono"];
 
-  /*   const keysToValidate4 = ["titulo"];
-    const keysTraduction4 = ["titulo del trabajo libre"];
+  const keysToValidate4 = ["titulo"];
+  const keysTraduction4 = ["titulo del trabajo libre"];
   
-    const keysToValidate5 = ["resumenTrabajo"];
-    const keysTraduction5 = ["resumen Trabajo"]; */
+  const keysToValidate5 = ["resumenTrabajo"];
+  const keysTraduction5 = ["resumen Trabajo"]; 
 
 
   const [errorApiGet, setErrorApiGet] = useState(false)
@@ -393,7 +393,7 @@ function Quest1() {
 
 
         <CautivaBtnForm text="Continuar" onClick={() => {
-          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+          const response = validateObjectFields(dataModule, keysToValidate4, keysTraduction4);
           if (response.validate === 0) {
             Swal.fire({
               title: "Faltan por rellenar",
@@ -430,7 +430,7 @@ function Quest1() {
 
 
         <CautivaBtnForm text="Continuar" onClick={() => {
-          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+          const response = validateObjectFields(dataModule, keysToValidate5, keysTraduction5);
           if (response.validate === 0) {
             Swal.fire({
               title: "Faltan por rellenar",
@@ -455,15 +455,11 @@ function Quest1() {
       </div>}
 
 
-
-
-
-
       {stage === 6 && <div className="w-full flex flex-col gap-6">
 
         <CautivaBtnForm text="Ver intrucciones para autores" onClick={() => null} />
 
-        <p>Archivo de trabajo libre</p>
+        <p><b>Archivo de trabajo libre</b></p>
         <UploadFile />
         <p className="text-red-400">
           Solamente se permiten archivos en formato de Word para subir tu trabajo.
@@ -471,7 +467,7 @@ function Quest1() {
         </p>
 
 
-        <p>Archivo de no autor</p>
+        <p><b>Archivo de no autor</b></p>
         <UploadFile />
         <p className="text-red-400">
           Subir el archivo sin los nombres de los autores  en formato Word.

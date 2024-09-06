@@ -1,24 +1,56 @@
 import { useState, useRef } from 'react';
 import './UploadFile.css';
+import { FiUpload } from 'react-icons/fi'; // Importamos un icono de subida
 
-function UploadFile() {
+function UploadFile({ uploadUrl }) {
+  const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
   const folderIconRef = useRef(null);
+  const inputRef = useRef(null);
 
   const handleFileChange = (event) => {
     if (event.target.files.length > 0) {
-      setFileName(event.target.files[0].name);
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
+      setFileName(selectedFile.name);
     }
   };
 
   const handleIconClick = () => {
-    // Añadir animación al hacer click
     if (folderIconRef.current) {
       folderIconRef.current.classList.add('animate-icon');
-      // Remover la clase después de la animación
       setTimeout(() => {
         folderIconRef.current.classList.remove('animate-icon');
-      }, 300); // Tiempo que dura la animación en milisegundos
+      }, 300);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      alert('Por favor selecciona un archivo antes de subir.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch(uploadUrl, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('Archivo subido exitosamente');
+        setFile(null);
+        setFileName('');
+        inputRef.current.value = ''; // Limpiar el input
+      } else {
+        alert('Error al subir el archivo');
+      }
+    } catch (error) {
+      console.error('Error al subir el archivo:', error);
+      alert('Ocurrió un error al subir el archivo.');
     }
   };
 
@@ -27,13 +59,13 @@ function UploadFile() {
       <div className="file-upload">
         <input
           type="file"
-          id="file-input"
+          ref={inputRef}
           accept=".pdf,.jpg,.png,.jpeg"
           name="ext_document"
           onChange={handleFileChange}
           className="file-input"
         />
-        <label htmlFor="file-input" className="file-input-label" onClick={handleIconClick}>
+        <label className="file-input-label" onClick={() => inputRef.current.click()} onMouseDown={handleIconClick}>
           <img
             src="/img/folder_icon.png"
             alt="Upload Icon"
@@ -43,15 +75,20 @@ function UploadFile() {
           <span>Seleccione documento</span>
         </label>
         {fileName && (
-          <div id="file-name" className="file-name-container">
-            <img src="/img/document.png" alt="File Icon" className="file-icon" />
-            <span id="file-name-text">{fileName}</span>
-            <img src="/img/checked.png" alt="Check Icon" className="check-icon" />
+          <div className="file-name-container show">
+            <img src="/img/document.png" alt="File Icon" className="file-icon iconUploads" />
+            <span>{fileName}</span>
+            <img src="/img/checked.png" alt="Check Icon" className="check-icon iconUploads" />
           </div>
+        )}
+        {file && (
+          <button onClick={handleUpload} className="upload-btn animate-upload-btn">
+            <FiUpload className="upload-icon" /> Subir Archivo
+          </button>
         )}
       </div>
     </div>
   );
 }
 
-export {UploadFile};
+export { UploadFile };

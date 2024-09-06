@@ -33,6 +33,10 @@
     font-size: 14px;
 }
 
+.file-name-container.show {
+    display: flex;
+}
+
 .file-upload:hover {
     border-color: #999;
 }
@@ -51,4 +55,55 @@
 .animate-icon {
     transform: scale(1.1) rotate(10deg);
     transition: transform 0.2s ease;
+}
+
+.upload-btn {
+    margin-top: 10px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-btn:hover {
+    background-color: #005fa3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.upload-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.upload-btn:hover .upload-icon {
+    transform: translateY(-3px) scale(1.1); /* Movimiento hacia arriba y escala en hover */
+    color: #cce4ff; /* Cambio de color suave en hover */
+}
+
+.upload-btn:hover span {
+    transform: translateY(-3px) scale(1.1); /* Movimiento hacia arriba y escala en hover */
+    color: #cce4ff; /* Cambio de color suave en hover */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.animate-upload-btn:active {
+    transform: scale(0.95); /* Simula un efecto de pulsación como en iOS */
+    transition: transform 0.1s ease;
+}
+
+.animate-upload-btn:active .upload-icon, .animate-upload-btn:active span {
+    transform: scale(0.95); /* Simula un efecto de pulsación para ícono y texto */
+}
+
+
+.iconUploads{
+    width: 20px;
 }
