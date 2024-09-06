@@ -18,6 +18,7 @@ import { Footer } from "../../components/Footer";
 import { OptionsCautivaForms } from '../../components/OptionsCautivaForms'
 import { TextCautiva } from "../../components/atomos/TextCautiva";
 import { UploadFile } from "../../components/atomos/UploadFile";
+import { CoauthorStage } from "../../components/organismos/CoauthorStage";
 
 
 function Quest1() {
@@ -455,13 +456,28 @@ function Quest1() {
 
 
 
+
+
+
       {stage === 6 && <div className="w-full flex flex-col gap-6">
 
-        <h4><b>Información de Trabajo Libre</b></h4>
+        <CautivaBtnForm text="Ver intrucciones para autores" onClick={() => null} />
 
-        <TextCautiva setDataModule={setDataModule} dataModule={dataModule} type="text" text="Resumen del Trabajo*" name="resumenTrabajo" />
-        <p className="text-red-400">El resumen deberá ser escrito en español y contener los resultados de trabajos originales.
+        <p>Archivo de trabajo libre</p>
+        <UploadFile />
+        <p className="text-red-400">
+          Solamente se permiten archivos en formato de Word para subir tu trabajo.
+          Deberá ser enviado en formato de archivo Word con Tipo de letra Times New Roman tamaño 12 pt. Le recordamos que la plataforma de envío de trabajos SOLO ACEPTA el formato de archivo Word.
         </p>
+
+
+        <p>Archivo de no autor</p>
+        <UploadFile />
+        <p className="text-red-400">
+          Subir el archivo sin los nombres de los autores  en formato Word.
+        </p>
+
+
 
 
 
@@ -475,7 +491,7 @@ function Quest1() {
             });
           } else if (response.validate == 1) {
             setStage(7)
-            setPercentageState(100)
+            setPercentageState(95)
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
@@ -489,52 +505,21 @@ function Quest1() {
           <GrFormNext className="btnIcon" />
         </CautivaBtnForm>
       </div>}
+
 
 
       {stage === 7 && <div className="w-full flex flex-col gap-6">
-
-        <p>Archivo de trabajo libre</p>
-        <UploadFile />
-
-
-        <p>Archivo de no autor</p>
-        <UploadFile />
-
-
-
-        <CautivaBtnForm text="Continuar" onClick={() => {
-          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
-          if (response.validate === 0) {
-            Swal.fire({
-              title: "Faltan por rellenar",
-              text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
-              icon: "info"
-            });
-          } else if (response.validate == 1) {
-            setStage(6)
-            setPercentageState(100)
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else {
-            Swal.fire({
-              title: "Por favor rellene todos los campos",
-              icon: "info"
-            });
-          }
-
-        }}>
-          <GrFormNext className="btnIcon" />
-        </CautivaBtnForm>
+        <CoauthorStage setDataModule={setDataModule} dataModule={dataModule} setStage={setStage} setPercentageState={setPercentageState} />      
       </div>}
 
 
 
-      {sendingData && <div className="w-full flex flex-col gap-6">
+   {/*    {sendingData && <div className="w-full flex flex-col gap-6">
         <div className="w-full flex flex-col gap-6">
           <CautivaLoader />
         </div>
       </div>}
-
+ */}
       {
         errorApiGet && <>
           <p>Ocurrio un error , contacte a soporte </p>
@@ -542,7 +527,7 @@ function Quest1() {
       }
 
 
-      {(stage === 100 && !sendingData && !errorApiGet) && <div className="w-full flex flex-col gap-6">
+      {(stage === 8 && !sendingData && !errorApiGet) && <div className="w-full flex flex-col gap-6">
         <Confetti
 
           recycle={false}  // Confeti se lanza una sola vez
