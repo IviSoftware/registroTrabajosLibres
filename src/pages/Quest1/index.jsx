@@ -447,7 +447,7 @@ function Quest1() {
 
       {stage === 6 && <div className="w-full flex flex-col gap-6">
 
-        <CautivaBtnForm text="Ver intrucciones para autores" onClick={() => null} />
+       {/*  <CautivaBtnForm text="Ver intrucciones para autores" onClick={() => null} /> */}
 
         <p><b>Archivo de trabajo libre</b></p>
         <UploadFile />

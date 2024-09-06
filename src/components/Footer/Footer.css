@@ -16,3 +16,20 @@
     justify-content: space-between; /* Espacio entre elementos internos */
     align-items: center;
   }
+
+  .button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .button-link:hover {
+    background-color: #0056b3;
+    color: #e2e2e2;
+  }
