@@ -30,7 +30,7 @@ function Quest1() {
   /*     const {  fullName,estadoProcedenciaAsistente } = getBasicData() */
 
 
-  const keysToValidate1 = ["participacion"];
+  const keysToValidate1 = ["tipoParticipacion"];
   const keysTraduction1 = ["participacion"];
 
   const keysToValidate2 = ["modulo"];
@@ -86,25 +86,15 @@ function Quest1() {
 
   useEffect(() => {
     contriesApi()
-
-    // Cargar las sucursales
-    getSucursales().then((data) => {
-      setSucursales(data);
-    });
-
-    // Cargar los departamentos
-    getDepartamentos().then((data) => {
-      setDepartamentos(data);
-    });
   }, [])
 
   const sendDataToAPI = async () => {
     setSendingData(true)
     const response = await sendRegister(dataModule);
     setSendingData(false)
-    if (!response.status == '200') {
+   /*  if (!response.status == '200') {
       setErrorApiGet(true)
-    }
+    } */
 
   }
 
@@ -148,10 +138,10 @@ function Quest1() {
         <OptionsCautivaForms setDataModule={setDataModule} dataModule={dataModule}
           text="Modalidad de presentación"
           options={['Presentación oral', 'Poster tradicional', 'Rapid-Fire', 'Caso clínico (reporte de caso)', 'Sin preferencia']}
-          name="participacion"
+          name="tipoParticipacion"
         />
 
-        {dataModule.participacion === 'Presentación oral' && <p>
+        {dataModule.tipoParticipacion === 'Presentación oral' && <p>
           Los trabajos aceptados también tendrán la opción de ser presentados como pósteres en la zona principal de exhibiciones. <br /><br />
 
           Aquí, los autores podrán mostrar una versión digital de su trabajo, lo que permitirá una interacción cercana con los asistentes interesados en su investigación. <br /><br />
@@ -180,7 +170,7 @@ function Quest1() {
             Comité Organizador del Congreso Internacional en Nefrología IMIN 2024.
           </span>
         </p>}
-        {dataModule.participacion === 'Poster tradicional' && <p>
+        {dataModule.tipoParticipacion === 'Poster tradicional' && <p>
           Los trabajos aceptados también tendrán la opción de ser presentados como pósteres en la zona principal de exhibiciones. <br /><br />
 
           Aquí, los autores podrán mostrar una versión digital de su trabajo, lo que permitirá una interacción cercana con los asistentes interesados en su investigación. <br /><br />
@@ -195,7 +185,7 @@ function Quest1() {
             Comité Organizador del Congreso Internacional en Nefrología IMIN 2024.
           </span>
         </p>}
-        {dataModule.participacion === 'Rapid-Fire' && <p>
+        {dataModule.tipoParticipacion === 'Rapid-Fire' && <p>
           Los trabajos seleccionados para esta modalidad tendrán la oportunidad de realizar una presentación "Rapid Fire" durante los horarios designados en la zona de pósters. Cada presentación será breve, de 4 a 5 minutos, y se realizará en una pantalla digital. Esta opción permitirá una vista previa dinámica de los resultados y fomentará el interés de los asistentes. <br /><br />
           <hr className="mb-4"></hr>
           <b>Agradecemos su dedicación y compromiso con la investigación en nefrología y esperamos contar con su valiosa contribución en el Congreso Internacional en Nefrología IMIN 2023, en Acapulco.</b> <br /><br />
@@ -206,7 +196,7 @@ function Quest1() {
             Comité Organizador del Congreso Internacional en Nefrología IMIN 2024.
           </span>
         </p>}
-        {dataModule.participacion === 'Caso clínico (reporte de caso)' && <p>
+        {dataModule.tipoParticipacion === 'Caso clínico (reporte de caso)' && <p>
           Los trabajos aceptados también tendrán la opción de ser presentados como pósteres en la zona principal de exhibiciones. <br /><br />
 
           Aquí, los autores podrán mostrar una versión digital de su trabajo, lo que permitirá una interacción cercana con los asistentes interesados en su investigación. <br /><br />
@@ -221,7 +211,7 @@ function Quest1() {
             Comité Organizador del Congreso Internacional en Nefrología IMIN 2024.
           </span>
         </p>}
-        {dataModule.participacion === 'Sin preferencia' && <p>
+        {dataModule.tipoParticipacion === 'Sin preferencia' && <p>
           Los trabajos aceptados también tendrán la opción de ser presentados como pósteres en la zona principal de exhibiciones. <br /><br />
 
           Aquí, los autores podrán mostrar una versión digital de su trabajo, lo que permitirá una interacción cercana con los asistentes interesados en su investigación. <br /><br />
@@ -480,6 +470,7 @@ function Quest1() {
         <CautivaBtnForm text="Continuar" onClick={() => {
            setStage(7)
            setPercentageState(95)
+          
           //const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
         /*   if (response.validate === 0) {
             Swal.fire({
@@ -507,17 +498,17 @@ function Quest1() {
 
 
       {stage === 7 && <div className="w-full flex flex-col gap-6">
-        <CoauthorStage setDataModule={setDataModule} dataModule={dataModule} setStage={setStage} setPercentageState={setPercentageState} />      
+        <CoauthorStage setDataModule={setDataModule} dataModule={dataModule} setStage={setStage} setPercentageState={setPercentageState}  sendDataToAPI={ sendDataToAPI} />      
       </div>}
 
 
 
-   {/*    {sendingData && <div className="w-full flex flex-col gap-6">
+     {sendingData && <div className="w-full flex flex-col gap-6">
         <div className="w-full flex flex-col gap-6">
           <CautivaLoader />
         </div>
       </div>}
- */}
+
       {
         errorApiGet && <>
           <p>Ocurrio un error , contacte a soporte </p>

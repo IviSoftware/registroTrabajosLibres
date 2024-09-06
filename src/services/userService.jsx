@@ -88,40 +88,60 @@ const verificarCupon = async (cupon) => {
     }
   };
   
+
   const sendRegister = async (jsonReactState) => {
     const formData = new FormData();
-
-    // Iterar sobre las entradas del jsonReactState y excluir el campo 'correo'
-    Object.entries(jsonReactState).forEach(([key, value]) => {
-
-        formData.append(key, value);
-
-    });
-
-   // Imprimir el contenido del formData
-   console.log('Contenido de formData:');
-   for (let [key, value] of formData.entries()) {
-     console.log(`${key}: ${value}`);
-   }
   
-  try {
-      const response = await fetch('https://api.integrameetings.com/v1/registro/?action=save&evento=14', {
+    // Obtener el correo electrónico del usuario desde el localStorage
+    const emailUsuario = localStorage.getItem('emailQuests');
+    if (emailUsuario) {
+      formData.append('correo', emailUsuario); // Añadir el email del usuario al FormData
+    } else {
+      console.warn('No se encontró el correo del usuario en el localStorage.');
+    }
+  
+    // Iterar sobre las entradas del jsonReactState
+    Object.entries(jsonReactState).forEach(([key, value]) => {
+      // Manejar el caso de los coautores
+      if (key === 'coautores' && Array.isArray(value)) {
+        value.forEach((coautor, index) => {
+          // Añadir cada campo del coautor al FormData con el formato correcto
+          Object.entries(coautor).forEach(([coautorKey, coautorValue]) => {
+            formData.append(`coautor[${index}][${coautorKey}]`, coautorValue);
+          });
+        });
+      } else {
+        // Agregar otros campos normalmente
+        formData.append(key, value);
+      }
+    });
+  
+    // Imprimir el contenido del formData
+    console.log('Contenido de formData:');
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+  
+   try {
+      const response = await fetch('https://api.integrameetings.com/v1/trabajos-libres/?action=saveRecord&evento=16', {
         method: 'POST',
         body: formData,
       });
-
-      console.log(response,'response')
+      const rta = await response.json()
+  
+      console.log(rta, 'response');
   
       if (!response.ok) {
         throw new Error(`Error al enviar el registro: ${response.statusText}`);
       }
   
-      return await response.json();
+      return rta;
     } catch (error) {
       console.error('Error al enviar el registro:', error);
       throw error;
     } 
   };
+  
 
 
 

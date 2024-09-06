@@ -5,36 +5,34 @@ import { CautivaBtnForm } from '../../atomos/CautivaBtnForm';
 import { GrFormNext } from 'react-icons/gr';
 import './CoauthorStage.css';
 
-function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState }) {
-  const [coauthors, setCoauthors] = useState([{ id: 1, nombre: '', apellidos: '', hospital: '', email: '' }]);
-  const [coauthorCounter, setCoauthorCounter] = useState(2);
+function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState, sendDataToAPI }) {
+  const [coauthors, setCoauthors] = useState([{ nombre: '', apellidos: '', hospital: '', correo: '' }]);
 
   const addCoauthor = () => {
-    const newCoauthor = { id: coauthorCounter, nombre: '', apellidos: '', hospital: '', email: '' };
+    const newCoauthor = { nombre: '', apellidos: '', hospital: '', correo: '' };
     const updatedCoauthors = [...coauthors, newCoauthor];
     setCoauthors(updatedCoauthors);
     updateDataModule(updatedCoauthors);
-    setCoauthorCounter(coauthorCounter + 1);
     console.log('Coautor agregado:', newCoauthor);
   };
 
-  const removeCoauthor = (id) => {
-    const element = document.getElementById(`coauthor-${id}`);
+  const removeCoauthor = (index) => {
+    const element = document.getElementById(`coauthor-${index}`);
     if (element) {
       element.classList.add('slide-out');
       setTimeout(() => {
-        const updatedCoauthors = coauthors.filter(coauthor => coauthor.id !== id);
+        const updatedCoauthors = coauthors.filter((_, i) => i !== index);
         setCoauthors(updatedCoauthors);
         updateDataModule(updatedCoauthors);
-        console.log('Coautor eliminado, ID:', id);
+        console.log('Coautor eliminado, índice:', index);
       }, 300);
     }
   };
 
-  const handleInputChange = (id, field, value) => {
-    console.log(`Actualizando coautor con ID ${id}, campo: ${field}, valor: ${value}`);
-    const updatedCoauthors = coauthors.map(coauthor =>
-      coauthor.id === id ? { ...coauthor, [field]: value.trim() } : coauthor
+  const handleInputChange = (index, field, value) => {
+    console.log(`Actualizando coautor en el índice ${index}, campo: ${field}, valor: ${value}`);
+    const updatedCoauthors = coauthors.map((coauthor, i) =>
+      i === index ? { ...coauthor, [field]: value.trim() } : coauthor
     );
     setCoauthors(updatedCoauthors);
     updateDataModule(updatedCoauthors);
@@ -51,7 +49,7 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
   const validateCoauthors = () => {
     for (let coauthor of coauthors) {
       console.log(coauthor, 'coautor');
-      if (!coauthor.nombre.trim() || !coauthor.apellidos.trim() || !coauthor.hospital.trim() || !coauthor.email.trim()) {
+      if (!coauthor.nombre.trim() || !coauthor.apellidos.trim() || !coauthor.hospital.trim() || !coauthor.correo.trim()) {
         Swal.fire({
           title: 'Faltan datos',
           text: 'Por favor, complete todos los campos de los coautores.',
@@ -67,6 +65,7 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
     if (validateCoauthors()) {
       setStage(8);
       setPercentageState(100);
+      sendDataToAPI();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -74,37 +73,37 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
   return (
     <div className="w-full flex flex-col gap-6">
       {coauthors.map((coauthor, index) => (
-        <div key={coauthor.id} id={`coauthor-${coauthor.id}`} className="coauthor-block flex flex-col gap-6">
+        <div key={index} id={`coauthor-${index}`} className="coauthor-block flex flex-col gap-6">
           <InputCautivaForms
             type="text"
             text="Nombre(s)"
-            name={`nombre${coauthor.id}`}
+            name={`nombre${index}`}
             valueUser={coauthor.nombre}
-            onChange={(e) => handleInputChange(coauthor.id, 'nombre', e.target.value)}
+            onChange={(e) => handleInputChange(index, 'nombre', e.target.value)}
           />
           <InputCautivaForms
             type="text"
             text="Apellidos"
-            name={`apellidos${coauthor.id}`}
+            name={`apellidos${index}`}
             valueUser={coauthor.apellidos}
-            onChange={(e) => handleInputChange(coauthor.id, 'apellidos', e.target.value)}
+            onChange={(e) => handleInputChange(index, 'apellidos', e.target.value)}
           />
           <InputCautivaForms
             type="text"
             text="Institución y servicio a la que pertenece*"
-            name={`hospital${coauthor.id}`}
+            name={`hospital${index}`}
             valueUser={coauthor.hospital}
-            onChange={(e) => handleInputChange(coauthor.id, 'hospital', e.target.value)}
+            onChange={(e) => handleInputChange(index, 'hospital', e.target.value)}
           />
           <InputCautivaForms
             type="text"
             text="Correo Electrónico*"
-            name={`email${coauthor.id}`}
-            valueUser={coauthor.email}
-            onChange={(e) => handleInputChange(coauthor.id, 'email', e.target.value)}
+            name={`correo${index}`}
+            valueUser={coauthor.correo}
+            onChange={(e) => handleInputChange(index, 'correo', e.target.value)}
           />
           {index > 0 && (
-            <button className="remove-btn" onClick={() => removeCoauthor(coauthor.id)}>
+            <button className="remove-btn" onClick={() => removeCoauthor(index)}>
               Eliminar Coautor
             </button>
           )}
