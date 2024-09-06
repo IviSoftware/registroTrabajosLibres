@@ -23,3 +23,15 @@
     font-weight: bold;
     color: #555;
 }
+
+.word-counter {
+    text-align: right;
+    font-size: 12px;
+    margin-top: 5px;
+    color: #555;
+    transition: color 0.3s;
+  }
+  
+  .word-counter.warning {
+    color: #d9534f; /* Cambia a rojo cuando se acerca al límite */
+  }

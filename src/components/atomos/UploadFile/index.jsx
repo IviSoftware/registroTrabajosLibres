@@ -11,6 +11,27 @@ function UploadFile({ uploadUrl }) {
   const handleFileChange = (event) => {
     if (event.target.files.length > 0) {
       const selectedFile = event.target.files[0];
+
+      // Validar tipo de archivo (solo Word y plantillas Word)
+      const allowedExtensions = /(\.doc|\.docx|\.dotx)$/i;
+      if (!allowedExtensions.exec(selectedFile.name)) {
+        alert('Solo se permiten archivos en formato Word (.doc, .docx, .dotx).');
+        inputRef.current.value = ''; // Limpiar el input
+        setFile(null);
+        setFileName('');
+        return;
+      }
+
+      // Validar tamaño del archivo (máximo 5MB)
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      if (selectedFile.size > maxSizeInBytes) {
+        alert('El archivo no debe exceder los 5MB.');
+        inputRef.current.value = ''; // Limpiar el input
+        setFile(null);
+        setFileName('');
+        return;
+      }
+
       setFile(selectedFile);
       setFileName(selectedFile.name);
     }
@@ -60,7 +81,7 @@ function UploadFile({ uploadUrl }) {
         <input
           type="file"
           ref={inputRef}
-          accept=".pdf,.jpg,.png,.jpeg"
+          accept=".doc,.docx,.dotx" // Permitir solo archivos Word
           name="ext_document"
           onChange={handleFileChange}
           className="file-input"

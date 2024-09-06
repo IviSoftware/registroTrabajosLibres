@@ -4,11 +4,13 @@ import { ContainerElementForm } from '../ContainerElementForm';
 
 function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, valueUser, verifyMail, onChange }) {
   const [limit, setLimit] = useState(valueUser || '');
+  const [wordCount, setWordCount] = useState(0);
   const hasInitialized = useRef(false);
 
   const sendToStageApi = (value) => {
     if (setDataModule && dataModule) {
-      const updatedData = { ...dataModule, [name]: value };
+      const updatedData = { ...dataModule };
+      updatedData[name] = value;
       setDataModule(updatedData);
       console.log('sendToStageApi:', updatedData);
     }
@@ -16,8 +18,9 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
 
   useEffect(() => {
     if (valueUser !== undefined && !hasInitialized.current) {
-      setLimit(valueUser); // Aseguramos que el valor inicial se sincronice correctamente
+      setLimit(valueUser);
       sendToStageApi(valueUser);
+      setWordCount(countWords(valueUser));
       hasInitialized.current = true;
     }
   }, [valueUser]);
@@ -25,8 +28,22 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
   const handleInputChange = (e) => {
     let value = e.target.value;
 
-    if (type === 'number') {
-      value = value.replace(/[^0-9]/g, '');
+    // Reglas para tipo "textRestrict"
+    if (type === 'textRestrict') {
+      // Convertir a mayúsculas
+      value = value.toUpperCase();
+
+      // Eliminar símbolos y caracteres especiales (permitir solo letras y espacios)
+      value = value.replace(/[^A-Z\s]/g, '');
+
+      // Contar palabras y restringir a 180
+      const words = value.trim().split(/\s+/);
+      if (words.length > 180) {
+        value = words.slice(0, 180).join(' ');
+      }
+      
+      // Actualizar contador de palabras
+      setWordCount(words.length);
     }
 
     if (max) {
@@ -38,6 +55,11 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
       setLimit(value);
       onChange ? onChange(e) : sendToStageApi(value);
     }
+  };
+
+  // Función para contar palabras
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).filter(word => word).length;
   };
 
   return (
@@ -55,6 +77,12 @@ function InputCautivaForms({ text, name, type, max, setDataModule, dataModule, v
         }}
         inputMode={type === 'number' ? 'numeric' : 'text'}
       />
+      {/* Mostrar contador de palabras solo si el tipo es "textRestrict" */}
+      {type === 'textRestrict' && (
+        <div className="word-counter">
+          {wordCount} / 180 palabras
+        </div>
+      )}
     </ContainerElementForm>
   );
 }

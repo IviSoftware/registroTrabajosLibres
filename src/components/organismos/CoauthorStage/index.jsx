@@ -19,7 +19,6 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
   };
 
   const removeCoauthor = (id) => {
-    // Añadir la clase de salida para la animación y luego eliminar el coautor
     const element = document.getElementById(`coauthor-${id}`);
     if (element) {
       element.classList.add('slide-out');
@@ -28,7 +27,7 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
         setCoauthors(updatedCoauthors);
         updateDataModule(updatedCoauthors);
         console.log('Coautor eliminado, ID:', id);
-      }, 300); // Esperar el tiempo de la animación antes de remover
+      }, 300);
     }
   };
 
@@ -43,14 +42,15 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
 
   // Función para actualizar el estado `dataModule` con los datos de los coautores
   const updateDataModule = (updatedCoauthors) => {
-    setDataModule({ ...dataModule, coautores: updatedCoauthors });
-    console.log('Actualización del dataModule:', { ...dataModule, coautores: updatedCoauthors });
+    // Aseguramos que dataModule.coautores siempre es un array y actualizamos coautores sin duplicaciones
+    const updatedModule = { ...dataModule, coautores: updatedCoauthors };
+    setDataModule(updatedModule);
+    console.log('Actualización del dataModule:', updatedModule);
   };
 
   const validateCoauthors = () => {
     for (let coauthor of coauthors) {
       console.log(coauthor, 'coautor');
-      // Validar que todos los campos no estén vacíos y no contengan solo espacios
       if (!coauthor.nombre.trim() || !coauthor.apellidos.trim() || !coauthor.hospital.trim() || !coauthor.email.trim()) {
         Swal.fire({
           title: 'Faltan datos',
@@ -76,8 +76,6 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
       {coauthors.map((coauthor, index) => (
         <div key={coauthor.id} id={`coauthor-${coauthor.id}`} className="coauthor-block flex flex-col gap-6">
           <InputCautivaForms
-            setDataModule={setDataModule}
-            dataModule={dataModule}
             type="text"
             text="Nombre(s)"
             name={`nombre${coauthor.id}`}
@@ -85,8 +83,6 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
             onChange={(e) => handleInputChange(coauthor.id, 'nombre', e.target.value)}
           />
           <InputCautivaForms
-            setDataModule={setDataModule}
-            dataModule={dataModule}
             type="text"
             text="Apellidos"
             name={`apellidos${coauthor.id}`}
@@ -94,8 +90,6 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
             onChange={(e) => handleInputChange(coauthor.id, 'apellidos', e.target.value)}
           />
           <InputCautivaForms
-            setDataModule={setDataModule}
-            dataModule={dataModule}
             type="text"
             text="Institución y servicio a la que pertenece*"
             name={`hospital${coauthor.id}`}
@@ -103,8 +97,6 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
             onChange={(e) => handleInputChange(coauthor.id, 'hospital', e.target.value)}
           />
           <InputCautivaForms
-            setDataModule={setDataModule}
-            dataModule={dataModule}
             type="text"
             text="Correo Electrónico*"
             name={`email${coauthor.id}`}

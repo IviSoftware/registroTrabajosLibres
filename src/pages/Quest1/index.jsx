@@ -385,7 +385,7 @@ function Quest1() {
         </p>
 
 
-        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="text" text="Título del trabajo libre*" name="titulo" />
+        <InputCautivaForms setDataModule={setDataModule} dataModule={dataModule} type="textRestrict" text="Título del trabajo libre*" name="titulo" />
         <p className="text-red-400">Título breve en MAYÚSCULAS. <br />
           Deberá tener un máximo de 180 palabras. <br />
           No deberá incluir abreviaturas ni símbolos. <br />
@@ -478,8 +478,10 @@ function Quest1() {
 
 
         <CautivaBtnForm text="Continuar" onClick={() => {
-          const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
-          if (response.validate === 0) {
+           setStage(7)
+           setPercentageState(95)
+          //const response = validateObjectFields(dataModule, keysToValidate1, keysTraduction1);
+        /*   if (response.validate === 0) {
             Swal.fire({
               title: "Faltan por rellenar",
               text: `Los siguientes campos están vacíos: ${response.fields.join(', ')}`,
@@ -495,7 +497,7 @@ function Quest1() {
               title: "Por favor rellene todos los campos",
               icon: "info"
             });
-          }
+          } */
 
         }}>
           <GrFormNext className="btnIcon" />
