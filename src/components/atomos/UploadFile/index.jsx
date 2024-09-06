@@ -40,7 +40,7 @@ function UploadFile() {
             className="folder-icon"
             ref={folderIconRef}
           />
-          <span>Seleccione documento que certifique tu condición de estudiante</span>
+          <span>Seleccione documento</span>
         </label>
         {fileName && (
           <div id="file-name" className="file-name-container">
