@@ -9,7 +9,6 @@ function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, 
 
     const sendToStageApi = () => {
         const updatedData = { ...dataModule };
-        // Enviar lada y teléfono por separado
         updatedData[name] = phoneNumber;
         updatedData['lada'] = lada;
         setDataModule(updatedData);
@@ -19,28 +18,32 @@ function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, 
         if (valueUser) {
             setPhoneNumber(valueUser);
         }
+    }, [valueUser]);
 
-        // Asignar la lada desde los datos si es necesario
-        const index = data.findIndex(item => item.name === dataModule.pais);
-        if (index !== -1) {
-            setLadaUser(data[index].lada); // Ajusta según tu estructura de datos
+    useEffect(() => {
+        // Actualiza la lada solo si cambia el país seleccionado
+        if (dataModule.pais) {
+            const selectedCountry = data.find(item => item.name === dataModule.pais);
+            if (selectedCountry) {
+                const newLada = selectedCountry.lada || '+52';
+                setLada(newLada);
+                setLadaUser(newLada);
+            }
         }
-    }, [valueUser, data, dataModule.pais, setLadaUser]);
+    }, [dataModule.pais, data, setLadaUser]);
 
     const handleLadaChange = (e) => {
-        const value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        const value = e.target.value.replace(/\D/g, '');
         setLada(value);
-        setLadaUser(value); // Actualiza el estado de la lada
+        setLadaUser(value);
     };
 
     const handlePhoneChange = (e) => {
-        if (valueUser) return; // No permitir cambios si valueUser está presente
-
-        const value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        if (valueUser) return;
+        const value = e.target.value.replace(/\D/g, '');
         setPhoneNumber(value);
     };
 
-    // Llamar a sendToStageApi cada vez que lada o phoneNumber cambian
     useEffect(() => {
         sendToStageApi();
     }, [lada, phoneNumber]);
@@ -56,15 +59,15 @@ function NumberCautivaInput({ text, name, setDataModule, dataModule, valueUser, 
                     onChange={handleLadaChange}
                     placeholder="Lada"
                     style={{ width: "50px" }}
-                    disabled={!!valueUser} // Deshabilitar el input si valueUser está presente
+                    disabled={!!valueUser}
                 />
                 <InputMask
-                    mask="999 999 9999" // Máscara para el número de teléfono sin lada
-                    maskChar={null} // No muestra ningún carácter por defecto, solo permite números
+                    mask="999 999 9999"
+                    maskChar={null}
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder="Número de teléfono"
-                    disabled={!!valueUser} // Deshabilitar el input si valueUser está presente
+                    disabled={!!valueUser}
                 >
                     {(inputProps) => <input {...inputProps} name={name} type="text" />}
                 </InputMask>

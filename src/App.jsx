@@ -3,6 +3,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './animations.css'; // Aquí se definirán las animaciones en CSS
 import { WelcomeQuests } from './pages/WelcomeQuests';
 import { Quest1 } from './pages/Quest1';
+import { Footer } from './components/Footer';
 
 import { SupportButton } from './components/atomos/SupportButton';
 
@@ -54,6 +55,8 @@ function App() {
       >
         <Quest1 />
       </CSSTransition>}
+
+      <Footer />
 
 
     </TransitionGroup>

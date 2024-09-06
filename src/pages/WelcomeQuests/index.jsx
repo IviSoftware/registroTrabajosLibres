@@ -4,6 +4,7 @@ import { InputWithOutText } from "../../components/atomos/InputWithoutText";
 import { RiSurveyFill } from "react-icons/ri";
 import Swal from 'sweetalert2'
 import { Navbar } from '../../components/Navbar';
+import { Footer } from "../../components/Footer";
 import { CautivaBtnForm } from "../../components/atomos/CautivaBtnForm";
 import { validateUser } from "../../services/userService";
 import { json } from "react-router-dom";
@@ -20,10 +21,11 @@ function WelcomeQuests({ setQuestState, setQuestType }) {
             <Navbar />
 
             <div className="flex items-center justify-center" style={{ maxWidth: "550px", margin: "0 auto" }} >
-                <div className="text-center p-6">
+                <div className="text-center p-6 w-full" style={{maxWidth:"600px"}}>
 
                     <p className="text-lg mb-8 mt-4 apple-subtitle-animation">
-                        <b>Ingrese su correo electronico para continuar</b>
+                        
+                        <b>Registro Trabajos Libres</b>
                     </p>
                     <InputWithOutText text="Introduzca su correo" name="email" type="email" onChange={e => {
                         setEmail(e.target.value);
@@ -45,47 +47,9 @@ function WelcomeQuests({ setQuestState, setQuestType }) {
                                     text: 'Por favor, introduzca un correo válido.',
                                 });
                             } else {
-
                                 localStorage.setItem('emailQuests', email)
-
-                                 const response = await verifyEmail(email);
-
-                                if(response.exists){
-                                 
-                                    Swal.fire({
-                                        title: "Usted ya está registrado",
-                                        text: "Si no es el caso, estamos en soporte para asistirte.",
-                                        icon: "info",
-                                        showCancelButton: true,
-                                        showConfirmButton: true,
-                                        confirmButtonText: 'Entiendo',
-                                        cancelButtonText: 'Reenviar correo',
-                                        allowOutsideClick: false,
-                                        allowEscapeKey: false,
-                                      }).then((result) => {
-                                        if (result.isConfirmed) {
-                                          // Acción para el botón "Entiendo" - Recargar la web
-                                          window.location.reload();
-                                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                          // Acción para el botón "Reenviar correo"
-                                          resendEmail(email);
-                                        }
-                                      });
-                                 
-                                 }else if(!response.exists){
-                                     
-
-                                     setQuestType('questOne');
-                                     setQuestState("questStarting")
- 
-                                     
-                                         
-                                      
-                                 }
-
-
-                              
-
+                                setQuestType('questOne');
+                                setQuestState("questStarting")
                             }
                         }
                     }}
@@ -95,6 +59,8 @@ function WelcomeQuests({ setQuestState, setQuestType }) {
                     </CautivaBtnForm>
                 </div>
             </div>
+
+       x
         </div>
     )
 }

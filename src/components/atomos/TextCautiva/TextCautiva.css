@@ -1,0 +1,25 @@
+.custom-input-editor {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.custom-input-editor:focus {
+    border-color: #0078d4;
+    box-shadow: 0 0 5px rgba(0, 120, 212, 0.2);
+}
+
+.TextTitleFormComponent {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}

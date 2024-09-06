@@ -1,0 +1,18 @@
+.footerMainer {
+    position: fixed; /* Fija el footer al final de la pantalla */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
+    backdrop-filter: blur(10px) saturate(180%); /* Efecto de glass */
+    -webkit-backdrop-filter: blur(10px) saturate(180%); /* Compatibilidad con Safari */
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* Borde superior para un look de separación */
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar el efecto */
+    z-index: 100; /* Ajusta según sea necesario para no cubrir contenido importante */
+    color: #333; /* Ajusta el color del texto para que sea legible */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Tipografía al estilo Apple */
+    display: flex;
+    justify-content: space-between; /* Espacio entre elementos internos */
+    align-items: center;
+  }

@@ -2,27 +2,21 @@ import { useEffect } from "react";
 
 const CautivaSelect = ({ title, name, data, type, setDataModule, dataModule, setLadaUser }) => {
     useEffect(() => {
-        if (data.length > 0) {
-            // Manejo específico para tipo 'country'
-            if (type === 'country') {
-                const defaultCountry = data.find(item => item.name === 'Guatemala') || data[0];
+        if (data.length > 0 && type === 'country') {
+            const defaultCountry = data.find(item => item.name === 'Mexico') || data[0];
+            // Solo inicializa si no hay un país seleccionado ya en dataModule
+            if (!dataModule.pais) {
                 updateDataModule(defaultCountry.name, defaultCountry.lada);
-            } else {
-                // Asignar por defecto el primer elemento para otros tipos si se requiere
-                const defaultItem = data[0];
-                updateDataModule(defaultItem);
             }
         }
     }, [data, type]);
 
     const updateDataModule = (nameValue, ladaValue = null) => {
-        // Actualizar el estado del módulo de datos de forma dinámica según el tipo
-        const updatedData = { ...dataModule, [name]: nameValue };
+        const updatedData = { ...dataModule, [name]: nameValue, pais: nameValue };
 
-        // Manejar campos adicionales específicamente para 'country'
+        // Actualizar la lada solo si es de tipo 'country'
         if (type === 'country' && ladaValue) {
-            updatedData.pais = nameValue;
-            setLadaUser(ladaValue); // Actualizar lada solo si es de tipo 'country'
+            setLadaUser(ladaValue);
         }
 
         setDataModule(updatedData);
@@ -30,33 +24,30 @@ const CautivaSelect = ({ title, name, data, type, setDataModule, dataModule, set
 
     const handleInputChange = (e) => {
         const value = e.target.value;
-    
-        // Añadir esta línea para asegurar que "Seleccione" no actualice el estado
-        if (value === "Seleccione" || !value) return;
-    
+        if (!value || value === "Seleccione") return;
+
         const selectedItem = data.find(item => item.name === value || item === value);
-    
+
         if (selectedItem) {
-            if (type === 'country') {
-                updateDataModule(selectedItem.name, selectedItem.lada);
-            } else {
-                updateDataModule(selectedItem); // Asigna directamente el valor si no es 'country'
-            }
+            updateDataModule(selectedItem.name, selectedItem.lada);
         }
     };
-    
 
     return (
         <>
             <label className="TextTitleFormComponent">{title}</label>
-            <select className="p-2 rounded-md" name={name} onChange={handleInputChange}>
-                {/* Opción "Seleccione" solo para selects que no son de tipo 'country' */}
+            <select
+                className="p-2 rounded-md"
+                name={name}
+                onChange={handleInputChange}
+                value={dataModule.pais || 'Mexico'}
+            >
                 {type !== 'country' && <option value="Seleccione">Seleccione</option>}
                 {data.map(item => (
-                    <option 
-                        key={item.name || item} 
-                        value={item.name || item} 
-                        selected={(type === 'country' && item.name === dataModule.pais) || item === dataModule[name]}>
+                    <option
+                        key={item.name || item}
+                        value={item.name || item}
+                    >
                         {item.name || item}
                     </option>
                 ))}
