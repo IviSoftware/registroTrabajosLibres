@@ -72,6 +72,7 @@ function CoauthorStage({ setDataModule, dataModule, setStage, setPercentageState
 
   return (
     <div className="w-full flex flex-col gap-6">
+      <p><b>Información de coautores</b></p>
       {coauthors.map((coauthor, index) => (
         <div key={index} id={`coauthor-${index}`} className="coauthor-block flex flex-col gap-6">
           <InputCautivaForms
